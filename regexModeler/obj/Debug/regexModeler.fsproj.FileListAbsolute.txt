@@ -1,0 +1,9 @@
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\regexModeler.exe.config
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\regexModeler.XML
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\regexModeler.exe
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\regexModeler.pdb
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\FSharp.Core.dll
+D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\FSharp.Core.xml
+D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.exe
+D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.pdb
+D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.fsprojResolveAssemblyReference.cache

@@ -6,6 +6,7 @@
     let printableCharSet = ['0'..'z']
     let wordCharSet = '_':: ['0'..'9'] @ ['A'..'z']
     let digitCharSet = ['0'..'9']
+    let spaceCharSet = ['\t'; ' ']
 
     let chrsToString chrs = new System.String(chrs |> Array.ofList)
 
@@ -26,6 +27,8 @@
     let getRandomNonDigit = getRandomItem <| subtractList printableCharSet digitCharSet
     let getRandomWordChar = getRandomItem wordCharSet
     let getRandomNonWordChar = getRandomItem <| subtractList printableCharSet wordCharSet
+    let getRandomSpaceChar = getRandomItem <| spaceCharSet
+    let getRandomNonSpaceChar = getRandomWordChar
     let getRandomListChar list = getRandomItem <| list
     let getRandomNonListChar list = getRandomItem <| subtractList printableCharSet list
 
@@ -35,20 +38,17 @@
         | 'D' -> getRandomNonDigit 
         | 'w' -> getRandomWordChar 
         | 'W' -> getRandomNonWordChar 
-        | 's' -> ' '
-        | '\\' -> '\\'
+        | 's' -> getRandomSpaceChar
+        | 'S' -> getRandomNonSpaceChar
         | otherwise -> '\000'
 
     let rec processInput (inputStr: string): string =
-        if inputStr.Length = 0 then ""
-        else
-            let inputList = [for c in inputStr -> c]
-            match inputList with
-                    | ('\\'::'\\'::xs) -> processInput(chrsToString xs) + @"\"
-                    | (x::'\\'::'\\'::xs) -> processInput(chrsToString xs) + @"\" + x.ToString()
-                    | (x::'\\'::xs) -> processInput(chrsToString xs) + (processCharClass x).ToString() 
-                    | (x::xs) -> stringAppend (processInput(chrsToString xs)) x
-                    | x -> x.ToString()
+        let inputList = [for c in inputStr -> c]
+        match inputList with
+            | [] -> ""
+            | (x::'\\'::'\\'::xs) -> processInput(chrsToString xs) + @"\" + x.ToString()
+            | (x::'\\'::xs) -> processInput(chrsToString xs) + (processCharClass x).ToString() 
+            | (x::xs) -> stringAppend (processInput(chrsToString xs)) x
                 
     let processUnRevInput (inputStr: string): string =
         processInput (new string(Array.rev(inputStr.ToCharArray())))

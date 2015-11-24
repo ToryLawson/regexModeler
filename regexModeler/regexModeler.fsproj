@@ -47,8 +47,11 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RegexModeler.fs" />
+    <Compile Include="ListHelpers.fs" />
+    <Compile Include="CharSets.fs" />
     <None Include="App.config" />
+    <Compile Include="RandomOutput.fs" />
+    <Compile Include="RegexModeler.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

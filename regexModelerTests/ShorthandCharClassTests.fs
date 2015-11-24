@@ -5,7 +5,7 @@ open RegexModeler
 open System
 open System.Text.RegularExpressions
 
-type RegexModelerShorthandCharClassTests () = 
+type ShorthandCharClassTests () = 
 
     [<Test>]
     member self.processInput_whenGivenLetter_returnsLetter() =
@@ -43,9 +43,10 @@ type RegexModelerShorthandCharClassTests () =
 
     [<Test>]
     member self.processInput_whenGivenSpace_insertsSpace() = 
-        let expected = @"hel lo"
-        let actual = processUnRevInput @"hel\slo"
-        Assert.That(actual, Is.EqualTo expected)
+        let testRegex = @"hel\slo"
+        let modelString = processUnRevInput @"hel\slo"
+        let modelMatch = Regex.Match (modelString, testRegex)
+        Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
     member self.processInput_whenGivenNonSpace_insertsNonSpace() =
@@ -54,3 +55,10 @@ type RegexModelerShorthandCharClassTests () =
         Console.WriteLine modelString
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
+
+    [<Test>]
+    member self.processInput_whenGivenBadCharClass_raisesException() =
+        let badRegex = @"hel\(lo"
+        let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
+        Assert.That(badProcessInputCall, Throws.TypeOf<Exception>())
+

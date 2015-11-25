@@ -7,3 +7,12 @@ D:\Training\fsharp\regexModeler\regexModeler\bin\Debug\FSharp.Core.xml
 D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.exe
 D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.pdb
 D:\Training\fsharp\regexModeler\regexModeler\obj\Debug\regexModeler.fsprojResolveAssemblyReference.cache
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\regexModeler.exe.config
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\regexModeler.XML
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\regexModeler.exe
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\regexModeler.pdb
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\FSharp.Core.dll
+C:\Users\Tory\Dev\regexmodeler\regexModeler\bin\Debug\FSharp.Core.xml
+C:\Users\Tory\Dev\regexmodeler\regexModeler\obj\Debug\regexModeler.fsprojResolveAssemblyReference.cache
+C:\Users\Tory\Dev\regexmodeler\regexModeler\obj\Debug\regexModeler.exe
+C:\Users\Tory\Dev\regexmodeler\regexModeler\obj\Debug\regexModeler.pdb

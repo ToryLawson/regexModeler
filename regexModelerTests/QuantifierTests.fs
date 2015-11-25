@@ -6,12 +6,6 @@ open RegexModeler
 
 type QuantifierTests () = 
 
-    [<Test>]
-    member self.processInput_WhenGivenLiteralAndQuantifier_RepeatsLiteral() =
-        let expected = "heLLo"
-        let testRegex = "heL{2}o"
-        Assert.AreEqual(expected, processUnRevInput testRegex)
-
     [<TestCase (@"he\d{3}lo", @"he\d{3}lo")>]                // digit char class
     [<TestCase (@"he\cM{3}lo", @"he(\^M){3}lo")>]            // control chars
     [<TestCase (@"he\x{DAE0}{3}lo", @"he(U\+DAE0){3}lo")>]   // 4 digit hex

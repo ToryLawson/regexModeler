@@ -21,7 +21,7 @@ type LiteralTests() =
    
     [<Test>]
     member self.processInput_whenGivenLiteralSlash_addsLiteralSlash() =
-        let expected = "hel\lo"
+        let expected = @"hel\lo"
         let actual = processUnRevInput @"hel\\lo"
         Assert.That(actual, Is.EqualTo expected)
 

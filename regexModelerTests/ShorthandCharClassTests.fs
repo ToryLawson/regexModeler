@@ -32,6 +32,7 @@ type ShorthandCharClassTests () =
         let testRegex = @"ss\waa"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
+        Console.WriteLine(modelString) |> ignore
         Assert.IsTrue(modelMatch.Success)
     
     [<Test>]

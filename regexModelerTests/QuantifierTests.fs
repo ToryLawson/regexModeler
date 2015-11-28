@@ -19,7 +19,7 @@ type QuantifierTests () =
         let modelMatch = Regex.Match(modelString, testRegex)
         Assert.True(modelMatch.Success)
 
-    // TODO: create real test cases
+    // TODO: create real test cases 
     [<TestCase "he\d{3}lo">]    // digit char class
     [<TestCase "he\d{3}lo">]    // control chars
     [<TestCase "he\d{3}lo">]    // 4 digit hex

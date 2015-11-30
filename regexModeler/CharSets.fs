@@ -3,7 +3,7 @@
     open System.Text.RegularExpressions
 
     let printableCharSet = [' '..'~']
-    let wordCharSet = '_':: ['0'..'9'] @ ['A'..'z']
+    let wordCharSet = '_':: ['0'..'9'] @ ['A'..'Z'] @ ['a'..'z']
     let digitCharSet = ['0'..'9']
     let spaceCharSet = ['\t'; ' ']
 

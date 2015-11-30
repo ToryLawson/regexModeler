@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open RegexModeler
+open RegexModeler.Main
 open System
 open System.Text.RegularExpressions
 
@@ -57,17 +58,17 @@ type ShorthandCharClassTests () =
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a word boundary char class, inserts word boundary char``() =
+    member self.``When given a word boundary char class, inserts space``() =
         let testRegex = @"hello\bworld"
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match (modelString, testRegex)
-        Assert.IsTrue modelMatch.Success
+        let expected = "hello world"
+        let actual = processUnRevInput testRegex
+        Assert.AreEqual(expected, actual)
 
     [<TestCase @"hello \bworld">]
     [<TestCase @"hello\b world">]
     [<TestCase @"\bhello world">]
     [<TestCase @"hello world\b">]
-    member self.``When given a word boundary char class, doesn't inserts word boundary char if not needed``(testRegex) =
+    member self.``When given a word boundary char class, doesn't insert word boundary char if not needed``(testRegex) =
         let expected = "hello world"
         let actual = processUnRevInput testRegex
         Assert.AreEqual(expected, actual)
@@ -77,5 +78,5 @@ type ShorthandCharClassTests () =
     member self.``When given a bad char class, throws exception``() =
         let badRegex = @"hel\(lo"
         let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
-        Assert.That(badProcessInputCall, Throws.TypeOf<Exception>())
+        Assert.That(badProcessInputCall, Throws.TypeOf<InvalidShorthandClassException>())
 

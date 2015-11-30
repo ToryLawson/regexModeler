@@ -47,6 +47,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions.fs" />
     <Compile Include="ListHelpers.fs" />
     <Compile Include="CharSets.fs" />
     <None Include="App.config" />

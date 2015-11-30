@@ -10,8 +10,12 @@
     let rec processWordBoundaries (inputStr: string): string =
         let inputList = [for c in inputStr -> c]
         match inputList with 
+        | '\\'::'b'::'{'::xs ->
+            raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
         | x::'\\'::'b'::y::xs ->
-            if CharSets.IsNonWord x || CharSets.IsNonWord y 
+            if y = '{'
+                then raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
+            else if CharSets.IsNonWord x || CharSets.IsNonWord y 
                 then x.ToString() + (processWordBoundaries <| chrsToString (y::xs))
             else x.ToString() + ' '.ToString() + (processWordBoundaries <| chrsToString (y::xs))
         | '\\'::'b'::xs -> 
@@ -29,7 +33,7 @@
         | 'S' -> getRandomNonSpaceChar
         | otherwise -> 
             Console.WriteLine(ch.ToString()) |> ignore
-            raise(new Exception "Unsupported shorthand character class")
+            raise <| InvalidShorthandClassException "Unsupported shorthand character class"
 
     let preProcessInput (inputStr: string): string = 
         processWordBoundaries inputStr

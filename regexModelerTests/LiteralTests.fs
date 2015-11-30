@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open RegexModeler
+open RegexModeler.Main
 open System
 open System.Text.RegularExpressions
 

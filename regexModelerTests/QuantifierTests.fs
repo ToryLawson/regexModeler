@@ -1,8 +1,10 @@
 ﻿namespace regexModelerTests
 
 open NUnit.Framework
+open System
 open System.Text.RegularExpressions
 open RegexModeler
+open RegexModeler.Main
 
 type QuantifierTests () = 
 
@@ -16,7 +18,14 @@ type QuantifierTests () =
     member self.``When given a single quantifier and a single value, repeats value``(testRegex, passRegex) =
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match(modelString, passRegex)
+        Console.WriteLine(modelString) |> ignore
         Assert.True(modelMatch.Success)
+
+    [<Test>]
+    member self.``When given a word boundary quantifier, throws exception``() =
+        let badRegex = @"hello\b{3}world"
+        let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
+        Assert.That(badProcessInputCall, Throws.TypeOf<InvalidQuantifierTargetException>())
 
 
 

@@ -7,17 +7,25 @@
     open RandomOutput
     open ListHelpers
 
-    let rec processWordBoundaries (inputStr: string): string =
-        let inputList = [for c in inputStr -> c]
+    let rec validateRegex (inputList: list<char>) : unit =
+        match inputList with
+        | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
+            raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
+        | x::xs -> 
+            validateRegex xs
+        | [] -> ()      
+
+    let rec processWordBoundaries (inputList: list<char>): list<char> =
         match inputList with 
         | x::'\\'::'b'::y::xs ->
             if CharSets.IsNonWord x || CharSets.IsNonWord y 
-                then x.ToString() + (processWordBoundaries <| chrsToString (y::xs))
-            else x.ToString() + ' '.ToString() + (processWordBoundaries <| chrsToString (y::xs))
+                then x :: (processWordBoundaries (y::xs))
+            else x::' ':: (processWordBoundaries (y::xs))
         | '\\'::'b'::xs -> 
-            processWordBoundaries <| chrsToString (xs)
-        | x::xs -> x.ToString() + (processWordBoundaries <| chrsToString(xs))
-        | [] -> String.Empty
+            processWordBoundaries xs
+        | x::xs -> 
+            x:: (processWordBoundaries xs)
+        | x -> x
             
     let processCharClass (ch:char) :char =
         match ch with 
@@ -29,51 +37,52 @@
         | 'S' -> getRandomNonSpaceChar
         | otherwise -> 
             Console.WriteLine(ch.ToString()) |> ignore
-            raise(new Exception "Unsupported shorthand character class")
+            raise <| InvalidShorthandClassException "Unsupported shorthand character class"
 
-    let preProcessInput (inputStr: string): string = 
-        processWordBoundaries inputStr
+    let preProcessInput (inputList: list<char>): list<char> = 
+        validateRegex inputList
+        processWordBoundaries inputList
 
-    let rec processInput (inputStr: string, n: int): string =
-        let inputList = [for c in inputStr -> c]
+    let rec processInput (inputList: list<char>, n: int): list<char> =
         let nextN = if n = 0 then n else n - 1
+
         match inputList with
-        | [] -> String.Empty
         | ('}'::n::'{'::xs) ->                                                                                          // Single quantifier
-            processInput(chrsToString xs, int <| Char.GetNumericValue n)     
+            processInput(xs, int <| Char.GetNumericValue n)     
         | ('\\'::'\\'::xs) ->                                                                                           // Literal slash, at end  
-            if nextN = 0 then processInput(chrsToString xs, nextN) + @"\"
-            else processInput(inputStr, nextN) + @"\" 
+            if nextN = 0 then processInput(xs, nextN) @ ['\\']
+                         else processInput(inputList, nextN) @ ['\\'] 
         | (y::'c'::'\\'::xs) ->                                                                                         // Control characters
-            if nextN = 0 then processInput(chrsToString xs, nextN) + @"^" + y.ToString().ToUpper()                      
-            else processInput(inputStr, nextN) + @"^" + y.ToString().ToUpper()
+            if nextN = 0 then processInput(xs, nextN) @ ['^'; Char.ToUpper(y)]                      
+                         else processInput(inputList, nextN) @ ['^'; Char.ToUpper(y)]
         | (c2::c1::'x'::'\\'::xs) ->                                                                                    // 2-digit hex
-            if nextN = 0 then processInput(chrsToString xs, nextN) + "0x" + chrsToString [c1; c2]
-            else processInput(inputStr, nextN) + "0x" + chrsToString [c1; c2]
+            if nextN = 0 then processInput(xs, nextN) @ ['0';'x'; c1; c2]
+                         else processInput(inputList, nextN) @  ['0'; 'x'; c1; c2]
         | ('}'::c4::c3::c2::c1::'{'::x::'\\'::xs) ->                                                                    // 4-digit hex to Unicode
-            if nextN = 0 then processInput(chrsToString xs, nextN) + "U+" + chrsToString [c1;c2;c3;c4]
-            else processInput(inputStr, nextN) + "U+" + chrsToString [c1;c2;c3;c4]
+            if nextN = 0 then processInput(xs, nextN) @ ['U'; '+'; c1; c2; c3; c4]
+                         else processInput(inputList, nextN) @ ['U'; '+'; c1; c2; c3; c4]
         | (c4::c3::c2::c1::'u'::'\\'::xs) ->                                                                            // Unicode
-            if nextN = 0 then processInput(chrsToString xs, nextN) + "U+" + chrsToString[c1;c2;c3;c4] 
-            else processInput(inputStr, nextN) + "U+" + chrsToString[c1;c2;c3;c4]
+            if nextN = 0 then processInput(xs, nextN) @ ['U'; '+'; c1; c2; c3; c4]
+                         else processInput(inputList, nextN) @ ['U'; '+'; c1; c2; c3; c4]
         | (x::'\\'::'\\'::xs) ->                                                                                        // Literal slash, not at end  
-            if nextN = 0 then processInput(chrsToString xs, nextN) + @"\" + x.ToString()
-            else processInput(inputStr, nextN) + @"\" + x.ToString()
+            if nextN = 0 then processInput(xs, nextN) @ ['\\'; x]
+                         else processInput(inputList, nextN) @ ['\\'; x]
         | (x::'\\'::xs) ->                                                                                              // Shorthand char class
-            if nextN = 0 then processInput(chrsToString xs, nextN) + (processCharClass x).ToString()
-            else processInput(chrsToString (x::'\\'::xs), nextN) + (processCharClass x).ToString()  
+            if nextN = 0 then processInput(xs, nextN) @ [processCharClass x]
+                         else processInput(inputList, nextN) @ [processCharClass x]  
         | (x::xs) ->                                                                                                    // Non-escaped literal  
-            if nextN = 0 then stringAppend (processInput(chrsToString xs, nextN)) x                            
-            else stringAppend (processInput(chrsToString (x::xs), nextN)) x
-            
+            if nextN = 0 then processInput(xs, nextN) @ [x]                            
+                         else processInput(inputList, nextN) @ [x]
+        | x -> x
                 
     let processUnRevInput (inputStr: string): string =
-        processInput (new string(Array.rev <| (preProcessInput inputStr).ToCharArray()), 0)
+        let inputList = [for c in inputStr -> c]
+        chrsToString <| processInput(List.rev(preProcessInput inputList), 0)
 
     [<EntryPoint>]
     let main argv = 
-        let revInput = new string(Array.rev(argv.[0].ToCharArray()))
-        Console.WriteLine (processInput (preProcessInput <| revInput, 0))
+        let inputList = [for c in argv.[0] -> c]
+        Console.WriteLine (chrsToString <| processInput(List.rev(preProcessInput inputList), 0))
         0 // return an integer exit code
 
     

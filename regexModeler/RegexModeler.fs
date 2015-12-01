@@ -11,6 +11,8 @@
         match inputList with
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
             raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
+        | '['::']'::xs ->
+            raise <| InvalidCharacterSetException "Empty character sets are invalid."
         | x::xs -> 
             validateRegex xs
         | [] -> ()      
@@ -47,23 +49,25 @@
         let nextN = if n = 0 then n else n - 1
 
         match inputList with
-        | ('}'::n::'{'::xs) ->                                                                                          // Single quantifier
+        | '}'::n::'{'::xs ->                                                                                          // Single quantifier
             processInput(xs, int <| Char.GetNumericValue n)     
-        | ('\\'::'\\'::xs) ->                                                                                           // Literal slash, at end  
+        | ']'::x::'['::xs ->
+            processInput((if nextN = 0 then xs else inputList), nextN) @ [x]
+        | '\\'::'\\'::xs ->                                                                                           // Literal slash, at end  
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['\\']
-        | (y::'c'::'\\'::xs) ->                                                                                         // Control characters
+        | y::'c'::'\\'::xs ->                                                                                         // Control characters
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['^'; Char.ToUpper(y)] 
-        | (c2::c1::'x'::'\\'::xs) ->                                                                                    // 2-digit hex
+        | c2::c1::'x'::'\\'::xs ->                                                                                    // 2-digit hex
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['0';'x'; c1; c2]
-        | ('}'::c4::c3::c2::c1::'{'::x::'\\'::xs) ->                                                                    // 4-digit hex to Unicode
+        | '}'::c4::c3::c2::c1::'{'::x::'\\'::xs ->                                                                    // 4-digit hex to Unicode
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['U'; '+'; c1; c2; c3; c4]
-        | (c4::c3::c2::c1::'u'::'\\'::xs) ->                                                                            // Unicode
+        | c4::c3::c2::c1::'u'::'\\'::xs ->                                                                            // Unicode
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['U'; '+'; c1; c2; c3; c4]
-        | (x::'\\'::'\\'::xs) ->                                                                                        // Literal slash, not at end  
+        | x::'\\'::'\\'::xs ->                                                                                        // Literal slash, not at end  
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['\\'; x]
-        | (x::'\\'::xs) ->                                                                                              // Shorthand char class
+        | x::'\\'::xs ->                                                                                              // Shorthand char class
             processInput((if nextN = 0 then xs else inputList), nextN) @ [processCharClass x]
-        | (x::xs) ->                                                                                                    // Non-escaped literal  
+        | x::xs ->                                                                                                    // Non-escaped literal  
             processInput((if nextN = 0 then xs else inputList), nextN) @ [x]      
         | x -> x
                 

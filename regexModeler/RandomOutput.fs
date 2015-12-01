@@ -17,5 +17,6 @@
     let getRandomNonWordChar = getRandomItem <| subtractList printableCharSet wordCharSet
     let getRandomSpaceChar = getRandomItem <| spaceCharSet
     let getRandomNonSpaceChar = getRandomWordChar
+
     let getRandomListChar list = getRandomItem <| list
     let getRandomNonListChar list = getRandomItem <| subtractList printableCharSet list

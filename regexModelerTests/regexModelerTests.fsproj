@@ -54,6 +54,7 @@
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
     <Compile Include="QuantifierTests.fs" />
+    <Compile Include="CharSetTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

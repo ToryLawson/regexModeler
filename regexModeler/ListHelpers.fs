@@ -1,6 +1,7 @@
 ﻿module ListHelpers
 
     let chrsToString chrs = new System.String(chrs |> Array.ofList)
+    let stringToChrs str = [for c in str -> c]
 
     let stringAppend str chr = str + chr.ToString()
 

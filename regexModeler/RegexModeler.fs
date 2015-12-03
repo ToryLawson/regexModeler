@@ -12,7 +12,7 @@
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
             raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
         | '['::']'::xs ->
-            raise <| InvalidCharacterSetException "Empty character sets are invalid."
+            raise <| InvalidCharacterSetException "Empty bracketed character sets are invalid."
         | x::xs -> 
             validateRegex xs
         | [] -> ()      
@@ -29,7 +29,7 @@
             x::(processWordBoundaries xs)
         | x -> x
             
-    let processCharClass (ch:char) :char =
+    let processCharClass (ch:char) : char =
         match ch with 
         | 'd' -> getRandomDigit 
         | 'D' -> getRandomNonDigit 
@@ -40,6 +40,11 @@
         | otherwise -> 
             Console.WriteLine(ch.ToString()) |> ignore
             raise <| InvalidShorthandClassException "Unsupported shorthand character class"
+
+    let getCharFromClass (chrs:list<char>) : char * list<char> =
+        let str = chrsToString chrs
+        let classChars = str.Substring(0, str.IndexOf('[') - 1).ToCharArray()
+        ((getRandomListChar <| Array.toList (classChars)), stringToChrs <| str.Substring(str.IndexOf('[') + 1))
 
     let preProcessInput (inputList: list<char>): list<char> = 
         validateRegex inputList
@@ -53,6 +58,9 @@
             processInput(xs, int <| Char.GetNumericValue n)     
         | ']'::x::'['::xs ->
             processInput((if nextN = 0 then xs else inputList), nextN) @ [x]
+        | ']'::xs ->
+            let (chr, rest) = getCharFromClass inputList in
+            processInput((if nextN = 0 then rest else inputList), nextN) @ [chr]
         | '\\'::'\\'::xs ->                                                                                           // Literal slash, at end  
             processInput((if nextN = 0 then xs else inputList), nextN) @ ['\\']
         | y::'c'::'\\'::xs ->                                                                                         // Control characters

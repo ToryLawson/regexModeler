@@ -40,18 +40,18 @@ type LiteralTests () =
 
     [<Test>]
     member self.``When given two-digit hex, inserts two-digit hex char`` () =
-        let expected = "hel0xA9lo"
+        let expected = "hel\u00A9lo"
         let actual = processUnRevInput @"hel\xA9lo"
         Assert.That(actual, Is.EqualTo expected)
 
     [<Test>]
     member self.``When given four-digit hex, returns Unicode char`` () = 
-        let expected = "helU+20AClo"
+        let expected = "hel\u20AClo"
         let actual = processUnRevInput @"hel\x{20AC}lo"
         Assert.That(actual, Is.EqualTo expected)
 
     [<Test>]
     member self.``When given four-digit Unicode, returns Unicode char`` () = 
-        let expected = "helU+20AClo"
+        let expected = "hel\u20AClo"
         let actual  = processUnRevInput @"hel\u20AClo"
         Assert.That(actual, Is.EqualTo expected)

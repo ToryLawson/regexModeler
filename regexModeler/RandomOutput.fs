@@ -8,6 +8,15 @@
     let getRandomNumber max = 
         let rnd = new Random() in rnd.Next(max)
 
+    let getRandomNumberInRange min max = 
+        let min' = match min with
+                   | Some(a) -> a
+                   | None    -> 0                                
+        let max' = match max with
+                   | Some(a) -> a
+                   | None    -> min' + 10
+        let rnd = new Random() in rnd.Next(min', max')
+
     let getRandomItem (lst: 'a list) =
         lst.[getRandomNumber lst.Length]
 
@@ -20,3 +29,4 @@
 
     let getRandomListChar list = getRandomItem <| list
     let getRandomNonListChar list = getRandomItem <| subtractList printableCharSet list
+

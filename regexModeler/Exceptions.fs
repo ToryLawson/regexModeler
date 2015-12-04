@@ -9,5 +9,8 @@ exception InvalidShorthandClassException of string
 /// Character sets must be well-formed to be used. Verify that this one is not empty and that it does not contain any stray escapes.
 exception InvalidCharacterSetException of string
 
+/// Quantity must be parseable integer.
+exception InvalidQuantityException of string
+
 
 

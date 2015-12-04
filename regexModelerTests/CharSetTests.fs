@@ -11,7 +11,7 @@ type CharSetTests () =
         let testInput = ['4';'3';'2';'1';'[';'t';'s';'e';'t']
         let expected = ['t';'s';'e';'t']
         let (actualChr, actualStr) = getCharFromClass testInput
-        CollectionAssert.Contains("1234".ToCharArray(), actualChr)
+        CollectionAssert.Contains("1234", actualChr)
         Assert.AreEqual(expected, actualStr)
 
     [<Test>]
@@ -32,3 +32,23 @@ type CharSetTests () =
         let testRegex = @"hello [wWyY]orld"
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(["hello world"; "hello World"; "hello yorld"; "hello Yorld"], actual)
+
+    [<Test>]
+    member x.``When given a negated set with one element, returns something that is not that element.``() =
+        let testRegex = @"hello [^w]orld"
+        let expected = @"hello world"
+        let actual = processUnRevInput testRegex                
+        Assert.AreNotEqual(expected.[6], actual.[6])
+        Assert.AreEqual(expected.Length, actual.Length)
+        Assert.AreEqual(expected.Substring(0,6), actual.Substring(0,6))
+        Assert.AreEqual(expected.Substring(7,4), actual.Substring(7,4))
+
+    [<Test>]
+    member x.``When given a negated set with multiple elements, returns something not in the set.``() =
+        let testRegex = @"hello [^abcdefghijklmnopqrstuvw]orld"
+        let expected = @"hello world"
+        let actual = processUnRevInput testRegex
+        CollectionAssert.DoesNotContain("abcdefghijklmnopqrstuvw", actual.[6])
+        Assert.AreEqual(expected.Length, actual.Length)
+        Assert.AreEqual(expected.Substring(0,6), actual.Substring(0,6))
+        Assert.AreEqual(expected.Substring(7,4), actual.Substring(7,4))

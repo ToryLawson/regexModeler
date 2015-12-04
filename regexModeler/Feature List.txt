@@ -1,0 +1,12 @@
+Shorthand character classes
+Bracketed character classes
+POSIX classes
+Quantifiers (single)
+Quantifiers (range)
+Quantifiers (shorthand chars)
+Quantifier greediness
+Word boundaries
+Logical groups (parens)
+Capture groups
+
+

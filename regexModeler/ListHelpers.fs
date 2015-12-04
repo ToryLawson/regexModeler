@@ -10,3 +10,5 @@
     let subtractList (list1:char list) (list2: char list) = 
         Seq.toList <| Set.difference (new Collections.Set<char>(list1)) (new Collections.Set<char>(list2))
 
+    let reverseString (str:string) =
+        new string(Array.rev(str.ToCharArray()))

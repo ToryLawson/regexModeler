@@ -1,4 +1,5 @@
-﻿module RandomOutput
+﻿namespace RegexModeler
+
 open System
 open Microsoft.FSharp.Collections
 open CharSets
@@ -10,34 +11,36 @@ open ListHelpers
         member this.Rand() =
             new Random()
 
-    type RandomOutput() =
-            
+    type RandomOutput() =            
+    
         let rand =  
             RandomOutputSingleton.Instance.Rand()
+        
+        interface IOutput with 
 
-        member x.getRandomNumber max = 
-            rand.Next(max + 1)
+            member _x.GetNumber max = 
+                rand.Next(max + 1)
 
-        member x.getRandomNumberInRange min max = 
-            let min' = match min with
-                       | Some(a) -> a
-                       | None    -> 0                                
-            let max' = match max with
-                       | Some(a) -> a
-                       | None    -> min' + 10
-            rand.Next(min', max' + 1)
+            member _x.GetNumberInRange min max = 
+                let min' = match min with
+                           | Some(a) -> a
+                           | None    -> 0                                
+                let max' = match max with
+                           | Some(a) -> a
+                           | None    -> min' + 10
+                rand.Next(min', max' + 1)
 
-        member x.getRandomItem (lst: 'a list) =
-            lst.[x.getRandomNumber (lst.Length - 1)]
+            member x.GetListItem (lst: 'a list) =
+                lst.[(x:>IOutput).GetNumber (lst.Length - 1)]
 
-        member x.getRandomDigit = x.getRandomItem digitCharSet
-        member x.getRandomNonDigit = x.getRandomItem <| subtractList printableCharSet digitCharSet
-        member x.getRandomWordChar = x.getRandomItem wordCharSet
-        member x.getRandomNonWordChar = x.getRandomItem <| subtractList printableCharSet wordCharSet
-        member x.getRandomSpaceChar = x.getRandomItem <| spaceCharSet
-        member x.getRandomNonSpaceChar = x.getRandomWordChar
+            member x.GetDigit = (x:>IOutput).GetListItem digitCharSet
+            member x.GetNonDigit = (x:>IOutput).GetListItem <| subtractList printableCharSet digitCharSet
+            member x.GetWordChar = (x:>IOutput).GetListItem wordCharSet
+            member x.GetNonWordChar = (x:>IOutput).GetListItem <| subtractList printableCharSet wordCharSet
+            member x.GetSpaceChar = (x:>IOutput).GetListItem <| spaceCharSet
+            member x.GetNonSpaceChar = (x:>IOutput).GetWordChar
 
-        member x.getRandomListChar list = x.getRandomItem <| list
-        member x.getRandomNonListChar list = x.getRandomItem <| subtractList printableCharSet list
+            member x.GetListChar list = (x:>IOutput).GetListItem <| list
+            member x.GetNonListChar list = (x:>IOutput).GetListItem <| subtractList printableCharSet list
 
         

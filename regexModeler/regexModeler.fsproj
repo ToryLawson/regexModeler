@@ -47,11 +47,17 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICharSet.fs" />
+    <Compile Include="IOutput.fs" />
     <Compile Include="Exceptions.fs" />
     <Compile Include="ListHelpers.fs" />
+    <Compile Include="FullCharSet.fs" />
     <Compile Include="CharSets.fs" />
-    <None Include="App.config" />
     <Compile Include="RandomOutput.fs" />
+    <Compile Include="DeterministicOutput.fs" />
+    <Compile Include="CharClass.fs" />
+    <Compile Include="Quantifier.fs" />
+    <None Include="App.config" />
     <Compile Include="RegexModeler.fs" />
   </ItemGroup>
   <PropertyGroup>

@@ -1,9 +1,9 @@
-Shorthand character classes
-Bracketed character classes
-POSIX classes
-Quantifiers (single)
-Quantifiers (range)
-Quantifiers (shorthand chars)
+[OK] Shorthand character classes
+[OK] Bracketed character classes
+[OK] POSIX classes
+[OK] Quantifiers (single)
+[OK] Quantifiers (range)
+[OK] Quantifiers (shorthand chars)
 Quantifier greediness
 Word boundaries
 Logical groups (parens)

@@ -1,32 +1,43 @@
 ﻿module RandomOutput
+open System
+open Microsoft.FSharp.Collections
+open CharSets
+open ListHelpers
 
-    open System
-    open Microsoft.FSharp.Collections
-    open CharSets
-    open ListHelpers
+    type RandomOutputSingleton () =
+        static let instance = RandomOutputSingleton()
+        static member Instance = instance
+        member this.Rand() =
+            new Random()
 
-    let getRandomNumber max = 
-        let rnd = new Random() in rnd.Next(max)
+    type RandomOutput() =
+            
+        let rand =  
+            RandomOutputSingleton.Instance.Rand()
 
-    let getRandomNumberInRange min max = 
-        let min' = match min with
-                   | Some(a) -> a
-                   | None    -> 0                                
-        let max' = match max with
-                   | Some(a) -> a
-                   | None    -> min' + 10
-        let rnd = new Random() in rnd.Next(min', max')
+        member x.getRandomNumber max = 
+            rand.Next(max + 1)
 
-    let getRandomItem (lst: 'a list) =
-        lst.[getRandomNumber lst.Length]
+        member x.getRandomNumberInRange min max = 
+            let min' = match min with
+                       | Some(a) -> a
+                       | None    -> 0                                
+            let max' = match max with
+                       | Some(a) -> a
+                       | None    -> min' + 10
+            rand.Next(min', max' + 1)
 
-    let getRandomDigit = getRandomItem digitCharSet
-    let getRandomNonDigit = getRandomItem <| subtractList printableCharSet digitCharSet
-    let getRandomWordChar = getRandomItem wordCharSet
-    let getRandomNonWordChar = getRandomItem <| subtractList printableCharSet wordCharSet
-    let getRandomSpaceChar = getRandomItem <| spaceCharSet
-    let getRandomNonSpaceChar = getRandomWordChar
+        member x.getRandomItem (lst: 'a list) =
+            lst.[x.getRandomNumber (lst.Length - 1)]
 
-    let getRandomListChar list = getRandomItem <| list
-    let getRandomNonListChar list = getRandomItem <| subtractList printableCharSet list
+        member x.getRandomDigit = x.getRandomItem digitCharSet
+        member x.getRandomNonDigit = x.getRandomItem <| subtractList printableCharSet digitCharSet
+        member x.getRandomWordChar = x.getRandomItem wordCharSet
+        member x.getRandomNonWordChar = x.getRandomItem <| subtractList printableCharSet wordCharSet
+        member x.getRandomSpaceChar = x.getRandomItem <| spaceCharSet
+        member x.getRandomNonSpaceChar = x.getRandomWordChar
 
+        member x.getRandomListChar list = x.getRandomItem <| list
+        member x.getRandomNonListChar list = x.getRandomItem <| subtractList printableCharSet list
+
+        

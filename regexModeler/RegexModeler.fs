@@ -4,10 +4,11 @@
     open Microsoft.FSharp.Collections
     open ListHelpers
 
-    let rand = new RandomOutput()
-    let quantifier = new Quantifier(rand)
-    let charClass = new CharClass(rand)
-
+    let rand = Factory.GetIOutput (testMode=false)
+    let charSet = Factory.GetICharset (testMode=false)
+    let quantifier = Factory.GetIQuantifier (testMode=false)
+    let charClass = Factory.GetICharClass (testMode=false)
+    
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
             raise <| InvalidQuantifierTargetException "Zero-length matches are invalid as quantifier targets."
@@ -21,7 +22,7 @@
 
     let rec processWordBoundaries = function
         | x::'\\'::'b'::y::xs ->
-            if CharSets.IsNonWord x || CharSets.IsNonWord y 
+            if charSet.IsNonWord x || charSet.IsNonWord y 
                 then x ::(processWordBoundaries (y::xs))
             else x::' '::(processWordBoundaries (y::xs))
         | '\\'::'b'::xs -> 

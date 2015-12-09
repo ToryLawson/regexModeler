@@ -121,7 +121,7 @@ type QuantifierTests () =
     member _x.``Star quantifier sometimes returns zero chars``() =
         let testRegex = "hel3*lo"
         let matchCondition = "hello"
-        Assert.True(testLoop(testRegex, matchCondition, 10000, false))
+        Assert.True(testLoop(testRegex, matchCondition, 1000, false))
 
     [<Test>]
     member _x.``Plus quantifier always returns at least one char``() =

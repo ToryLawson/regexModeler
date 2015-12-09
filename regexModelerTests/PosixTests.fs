@@ -1,14 +1,17 @@
 ﻿namespace regexModelerTests
 
 open NUnit.Framework
+open RegexModeler
 open RegexModeler.Main
 
 type PosixTests () =
 
+    let charSet = Factory.GetICharset(testMode = true)
+
     [<Test>]
     member _x.``:upper: gets an uppercase letter.``() =
         let testRegex = "hello [:upper:]orld"
-        let expectedCharSet = CharSets.posixUpper
+        let expectedCharSet = charSet.posixUpper
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -16,7 +19,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:lower: gets a lowercase letter.``() =
         let testRegex = "hello [:lower:]orld"
-        let expectedCharSet = CharSets.posixLower
+        let expectedCharSet = charSet.posixLower
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -24,7 +27,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:alpha: gets an alpha letter.``() =
         let testRegex = "hello [:alpha:]orld"
-        let expectedCharSet = CharSets.posixAlpha 
+        let expectedCharSet = charSet.posixAlpha 
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -32,7 +35,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:alnum: gets an alphanumeric letter.``() =
         let testRegex = "hello [:alnum:]orld"
-        let expectedCharSet = CharSets.posixAlnum
+        let expectedCharSet = charSet.posixAlnum
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -40,7 +43,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:digit: gets a digit.``() =
         let testRegex = "hello [:digit:]orld"
-        let expectedCharSet = CharSets.posixDigit
+        let expectedCharSet = charSet.posixDigit
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -48,7 +51,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:xdigit: gets a hex digit.``() =
         let testRegex = "hello [:xdigit:]orld"
-        let expectedCharSet = CharSets.posixXdigit 
+        let expectedCharSet = charSet.posixXdigit 
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -56,7 +59,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:punct: gets punctuation.``() =
         let testRegex = "hello [:punct:]orld"
-        let expectedCharSet = CharSets.posixPunct
+        let expectedCharSet = charSet.posixPunct
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -64,7 +67,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:blank: gets space or tab.``() =
         let testRegex = "hello [:blank:]orld"
-        let expectedCharSet = CharSets.posixBlank
+        let expectedCharSet = charSet.posixBlank
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -72,7 +75,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:space: gets whitespace, including line breaks.``() =
         let testRegex = "hello [:space:]orld"
-        let expectedCharSet = CharSets.posixSpace
+        let expectedCharSet = charSet.posixSpace
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -80,7 +83,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:cntrl: gets a control character.``() =
         let testRegex = "hello [:cntrl:]orld"
-        let expectedCharSet = CharSets.posixCntrl
+        let expectedCharSet = charSet.posixCntrl
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -88,7 +91,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:graph: gets printable character.``() =
         let testRegex = "hello [:graph:]orld"
-        let expectedCharSet = CharSets.posixGraph
+        let expectedCharSet = charSet.posixGraph
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -96,7 +99,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:print: gets printable characters and spaces.``() =
         let testRegex = "hello [:print:]orld"
-        let expectedCharSet = CharSets.posixPrint
+        let expectedCharSet = charSet.posixPrint
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -104,7 +107,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:word: matches digits, letters, and underscore.``() =
         let testRegex = "hello [:word:]orld"
-        let expectedCharSet = CharSets.posixWord
+        let expectedCharSet = charSet.posixWord
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)
@@ -112,7 +115,7 @@ type PosixTests () =
     [<Test>]
     member _x.``:ascii: matches any ASCII character.``() =
         let testRegex = "hello [:ascii:]orld"
-        let expectedCharSet = CharSets.posixAscii
+        let expectedCharSet = charSet.posixAscii
         let actual = processUnRevInput testRegex
         CollectionAssert.Contains(expectedCharSet, actual.[6])
         Assert.AreEqual("hello world".Length, actual.Length)

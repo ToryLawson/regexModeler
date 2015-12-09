@@ -1,10 +1,11 @@
 ﻿namespace RegexModeler
 
 open ListHelpers
-open CharSets
 
     type DeterministicOutput() =
-
+    
+        member x.charSet = new SingleCharSet() :> ICharSet
+    
         interface IOutput with
 
             member _x.GetNumber max = max       
@@ -24,5 +25,5 @@ open CharSets
             member _x.GetSpaceChar =       ' '
             member _x.GetNonSpaceChar =    's' 
             member _x.GetListChar itemList = itemList.[0]
-            member _x.GetNonListChar itemList = 
-                (subtractList printableCharSet itemList).[0]
+            member x.GetNonListChar itemList = 
+                (subtractList x.charSet.printableChars itemList).[0]

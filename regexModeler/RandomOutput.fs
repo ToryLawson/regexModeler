@@ -2,7 +2,6 @@
 
 open System
 open Microsoft.FSharp.Collections
-open CharSets
 open ListHelpers
 
     type RandomOutputSingleton () =
@@ -15,6 +14,8 @@ open ListHelpers
     
         let rand =  
             RandomOutputSingleton.Instance.Rand()
+
+        let charSet = new FullCharSet() :> ICharSet
         
         interface IOutput with 
 
@@ -33,14 +34,14 @@ open ListHelpers
             member x.GetListItem (lst: 'a list) =
                 lst.[(x:>IOutput).GetNumber (lst.Length - 1)]
 
-            member x.GetDigit = (x:>IOutput).GetListItem digitCharSet
-            member x.GetNonDigit = (x:>IOutput).GetListItem <| subtractList printableCharSet digitCharSet
-            member x.GetWordChar = (x:>IOutput).GetListItem wordCharSet
-            member x.GetNonWordChar = (x:>IOutput).GetListItem <| subtractList printableCharSet wordCharSet
-            member x.GetSpaceChar = (x:>IOutput).GetListItem <| spaceCharSet
+            member x.GetDigit = (x:>IOutput).GetListItem charSet.digitChars
+            member x.GetNonDigit = (x:>IOutput).GetListItem <| subtractList charSet.printableChars charSet.digitChars
+            member x.GetWordChar = (x:>IOutput).GetListItem charSet.wordChars
+            member x.GetNonWordChar = (x:>IOutput).GetListItem <| subtractList charSet.printableChars charSet.wordChars
+            member x.GetSpaceChar = (x:>IOutput).GetListItem <| charSet.spaceChars
             member x.GetNonSpaceChar = (x:>IOutput).GetWordChar
 
             member x.GetListChar list = (x:>IOutput).GetListItem <| list
-            member x.GetNonListChar list = (x:>IOutput).GetListItem <| subtractList printableCharSet list
+            member x.GetNonListChar list = (x:>IOutput).GetListItem <| subtractList charSet.printableChars list
 
         

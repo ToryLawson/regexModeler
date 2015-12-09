@@ -1,6 +1,6 @@
 ﻿namespace RegexModeler
 
-    type FullCharSet() =
+    type SingleCharSet() =
 
         interface ICharSet with
 

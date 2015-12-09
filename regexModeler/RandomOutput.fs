@@ -1,26 +1,17 @@
 ﻿namespace RegexModeler
 
-open System
 open Microsoft.FSharp.Collections
 open ListHelpers
 
-    type RandomOutputSingleton () =
-        static let instance = RandomOutputSingleton()
-        static member Instance = instance
-        member this.Rand() =
-            new Random()
-
     type RandomOutput() =            
     
-        let rand =  
-            RandomOutputSingleton.Instance.Rand()
-
         let charSet = new FullCharSet() :> ICharSet
+        let random = System.Random()
         
         interface IOutput with 
 
             member _x.GetNumber max = 
-                rand.Next(max + 1)
+                random.Next(max + 1)
 
             member _x.GetNumberInRange min max = 
                 let min' = match min with
@@ -29,7 +20,7 @@ open ListHelpers
                 let max' = match max with
                            | Some(a) -> a
                            | None    -> min' + 10
-                rand.Next(min', max' + 1)
+                random.Next(min', max' + 1)
 
             member x.GetListItem (lst: 'a list) =
                 lst.[(x:>IOutput).GetNumber (lst.Length - 1)]

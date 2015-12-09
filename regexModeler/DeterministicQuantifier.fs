@@ -3,14 +3,14 @@
 open ListHelpers
 open System
 
-type DeterministicQuantifier () =
+type DeterministicQuantifier (output) =
+
+    member _x.output = output :> IOutput
 
     interface IQuantifier with
 
         member x.getNFromQuantifier (chrs) = 
             let str = chrsToString chrs    
-            let x' = (x :> IQuantifier)  
-            let output = (new DeterministicOutput() :> IOutput)
         
             match chrs with 
             | '}'::_ ->
@@ -23,17 +23,17 @@ type DeterministicQuantifier () =
                             | (true, int) -> Some int
                             | _           -> None)
                          let min, max = range.[0], range.[1]
-                         (output.GetNumberInRange min max, rest)          
+                         (x.output.GetNumberInRange min max, rest)          
                 else
                     match Int32.TryParse quantStr with
                     | (true, int) -> int, rest
                     | _ -> raise <| InvalidQuantityException "Could not parse quantifier."            
             | '*'::xs ->
-                (output.GetNumberInRange (Some(0)) (Some(10)), xs)
+                (x.output.GetNumberInRange (Some(0)) (Some(10)), xs)
             | '+'::xs ->
-                (output.GetNumberInRange (Some(1)) (Some(10)), xs)
+                (x.output.GetNumberInRange (Some(1)) (Some(10)), xs)
             | '?'::xs ->
-                (output.GetNumberInRange (Some(0)) (Some(1)), xs)
+                (x.output.GetNumberInRange (Some(0)) (Some(1)), xs)
             | _::xs -> raise <| InvalidQuantityException "Could not parse quantifier."
                        (0, xs)
             | [] -> raise <| ArgumentNullException "This list is empty, so."

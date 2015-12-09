@@ -4,7 +4,7 @@ open ListHelpers
 
     type DeterministicOutput() =
     
-        member x.charSet = new SingleCharSet() :> ICharSet
+        member _x.charSet = new SingleCharSet() :> ICharSet
     
         interface IOutput with
 

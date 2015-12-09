@@ -9,27 +9,27 @@ open System.Text.RegularExpressions
 type ShorthandCharClassTests () = 
 
     [<Test>]
-    member self.``When given a letter, returns same letter`` () =
+    member _x.``When given a letter, returns same letter`` () =
         let expected = "w"
         let actual = processUnRevInput expected
         Assert.That(actual, Is.EqualTo expected)
 
     [<Test>]
-    member self.``When given a digit class, inserts a digit``() =
+    member _x.``When given a digit class, inserts a digit``() =
         let testRegex = @"po\das"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a non-digit class, inserts a non-digit``() =
+    member _x.``When given a non-digit class, inserts a non-digit``() =
         let testRegex = @"12\D32"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a word char class, inserts a word char``() =
+    member _x.``When given a word char class, inserts a word char``() =
         let testRegex = @"ss\waa"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
@@ -37,28 +37,28 @@ type ShorthandCharClassTests () =
         Assert.IsTrue(modelMatch.Success)
     
     [<Test>]
-    member self.``When given a non-word char class, inserts a non-word char``() =
+    member _x.``When given a non-word char class, inserts a non-word char``() =
         let testRegex = @"hel\Wlo"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a whitespace char class, inserts a whitespace char``() = 
+    member _x.``When given a whitespace char class, inserts a whitespace char``() = 
         let testRegex = @"hel\slo"
         let modelString = processUnRevInput @"hel\slo"
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a non-whitespace char class, inserts non-whitespace char``() =
+    member _x.``When given a non-whitespace char class, inserts non-whitespace char``() =
         let testRegex = @"hel\So"
         let modelString = processUnRevInput testRegex
         let modelMatch = Regex.Match (modelString, testRegex)
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member self.``When given a word boundary char class, inserts space``() =
+    member _x.``When given a word boundary char class, inserts space``() =
         let testRegex = @"hello\bworld"
         let expected = "hello world"
         let actual = processUnRevInput testRegex
@@ -68,14 +68,14 @@ type ShorthandCharClassTests () =
     [<TestCase @"hello\b world">]
     [<TestCase @"\bhello world">]
     [<TestCase @"hello world\b">]
-    member self.``When given a word boundary char class, doesn't insert word boundary char if not needed``(testRegex) =
+    member _x.``When given a word boundary char class, doesn't insert word boundary char if not needed``(testRegex) =
         let expected = "hello world"
         let actual = processUnRevInput testRegex
         Assert.AreEqual(expected, actual)
 
 
     [<Test>]
-    member self.``When given a bad char class, throws exception``() =
+    member _x.``When given a bad char class, throws exception``() =
         let badRegex = @"hel\(lo"
         let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
         Assert.That(badProcessInputCall, Throws.TypeOf<InvalidShorthandClassException>())

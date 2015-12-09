@@ -6,8 +6,8 @@
 
     let rand = Factory.GetIOutput (testMode=false)
     let charSet = Factory.GetICharset (testMode=false)
-    let quantifier = Factory.GetIQuantifier (testMode=false)
-    let charClass = Factory.GetICharClass (testMode=false)
+    let quantifier = Factory.GetIQuantifier (testMode = false, output = rand)
+    let charClass = Factory.GetICharClass (testMode = false, output = rand)
     
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->

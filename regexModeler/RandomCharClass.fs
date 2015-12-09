@@ -2,9 +2,9 @@
 
 open ListHelpers
 
-type RandomCharClass() =
+type RandomCharClass(output) =
     
-    member _x.output = new RandomOutput() :> IOutput
+    member _x.output = output :> IOutput
     member _x.charSet = new FullCharSet() :> ICharSet
 
     interface ICharClass with

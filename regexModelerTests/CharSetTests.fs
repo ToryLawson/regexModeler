@@ -6,7 +6,8 @@ open RegexModeler.Main
 
 type CharSetTests () =
 
-    let charClass = Factory.GetICharClass(testMode = true)
+    let output = Factory.GetIOutput (testMode = false)
+    let charClass = Factory.GetICharClass (testMode = false, output = output)
 
     [<Test>]
     member _x.``getCharFromClass, when given character set, returns random char and rest of regex.``() =

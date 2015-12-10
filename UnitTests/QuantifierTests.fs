@@ -9,9 +9,6 @@ type QuantifierTests () =
     let output : IOutput = new DeterministicOutput() :> IOutput       
     let q : IQuantifier = new DeterministicQuantifier(output) :> IQuantifier
 
-    let TuplesEqual (a, b) (c, d) =
-        (a = c) && (b = d)
-
     let convertToInput (inputStr: string): char list =
         inputStr.ToCharArray() |> Array.rev |> Array.toList<char>
 
@@ -20,5 +17,4 @@ type QuantifierTests () =
         let input = convertToInput "{3}"
         let expected = (3, List<char>.Empty)
         let actual = q.getNFromQuantifier(input)
-        Assert.True(TuplesEqual expected actual)
-        Assert.TuplesEqual expected actual
+        Assert.PairsEqual expected actual

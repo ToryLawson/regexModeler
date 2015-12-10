@@ -3,7 +3,6 @@
 
 type NUnit.Framework.Assert with
 
-    static member TuplesEqual (a, b) (c, d) =
+    static member PairsEqual (a: 'a, b: 'b) (c: 'a, d: 'b)=
         NUnit.Framework.Assert.AreEqual(a, c)
         NUnit.Framework.Assert.AreEqual(b, d)
-

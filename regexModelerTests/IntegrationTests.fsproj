@@ -71,8 +71,8 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\regexModeler\regexModeler.fsproj">
-      <Name>regexModeler</Name>
+    <ProjectReference Include="..\regexModeler\ReverseRegex.fsproj">
+      <Name>ReverseRegex</Name>
       <Project>{236b2bea-73db-41e3-b2ba-8f1392e2c6c4}</Project>
       <Private>True</Private>
     </ProjectReference>

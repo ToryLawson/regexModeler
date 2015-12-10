@@ -8,11 +8,11 @@
     <ProjectGuid>236b2bea-73db-41e3-b2ba-8f1392e2c6c4</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>regexModeler</RootNamespace>
-    <AssemblyName>regexModeler</AssemblyName>
+    <AssemblyName>ReverseRegex</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>regexModeler</Name>
+    <Name>ReverseRegex</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

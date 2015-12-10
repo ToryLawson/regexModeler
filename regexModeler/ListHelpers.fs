@@ -13,3 +13,8 @@ let subtractList (list1:char list) (list2: char list) =
 
 let reverseString (str:string) =
     new string(Array.rev(str.ToCharArray()))
+
+let rec repeatChunk inputList n =
+    match n with
+    | 0 -> []
+    | _ -> inputList @ repeatChunk inputList (n-1)

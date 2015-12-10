@@ -2,7 +2,7 @@
 
 open TestHelpers
 open NUnit.Framework
-open RegexModeler
+open ReverseRegex
 
 type QuantifierTests () =
 

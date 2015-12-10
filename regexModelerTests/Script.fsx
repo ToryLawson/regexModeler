@@ -2,7 +2,7 @@
 // for more guidance on F# programming.
 
 #load "Library1.fs"
-open regexModelerTests
+open ReverseRegexTests
 
 // Define your library scripting code here
 

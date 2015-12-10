@@ -1,14 +1,14 @@
-﻿ module RegexModeler.Main
+﻿ module ReverseRegex.Main
 
     open System
     open Microsoft.FSharp.Collections
     open ListHelpers
 
-    let numGenerator = Factory.GetINumGenerator (testMode = false)
-    let charGenerator = Factory.GetICharGenerator (testMode = false)
-    let charSet = Factory.GetICharset (testMode = false)
-    let quantifier = Factory.GetIQuantifier (testMode = false, numGenerator = numGenerator)
-    let charClass = Factory.GetICharClass (testMode = false, charGenerator = charGenerator)
+    let numGenerator = Factory.GetINumGenerator()
+    let charGenerator = Factory.GetICharGenerator()
+    let charSet = Factory.GetICharset()
+    let quantifier = Factory.GetIQuantifier(numGenerator)
+    let charClass = Factory.GetICharClass(charGenerator)
     
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
@@ -31,6 +31,18 @@
         | x::xs -> 
             x::(processWordBoundaries xs)
         | x -> x
+
+    let rec expandQuantifiers (n, inputList) = 
+        let nextN = if n = 0 then 1 else n - 1
+        match inputList with
+        | '}'::_ | '*'::_ | '+'::_ | '?'::_ ->                                                                          
+            let (n, rest) = quantifier.getNFromQuantifier inputList in expandQuantifiers(n, rest)
+        | x::xs -> x::expandQuantifiers (n, xs)
+
+    let rec repeatChunk inputList n =
+        match n with
+        | 0 -> []
+        | _ -> inputList @ repeatChunk inputList (n-1)
                   
     let preProcessInput (inputList) = 
         validateRegex inputList

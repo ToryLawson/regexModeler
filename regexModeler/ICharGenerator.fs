@@ -1,4 +1,4 @@
-﻿namespace RegexModeler
+﻿namespace ReverseRegex
 
     type ICharGenerator =
         abstract member GetListItem:      'a list -> 'a

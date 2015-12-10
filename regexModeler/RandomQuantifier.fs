@@ -1,4 +1,4 @@
-﻿namespace RegexModeler
+﻿namespace ReverseRegex
 
 open ListHelpers
 open System

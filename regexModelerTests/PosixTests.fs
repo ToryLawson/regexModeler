@@ -1,12 +1,12 @@
-﻿namespace regexModelerTests
+﻿namespace ReverseRegexTests
 
 open NUnit.Framework
-open RegexModeler
-open RegexModeler.Main
+open ReverseRegex
+open ReverseRegex.Main
 
 type PosixTests () =
 
-    let charSet = Factory.GetICharset(testMode = true)
+    let charSet = Factory.GetICharset()
 
     [<Test>]
     member _x.``:upper: gets an uppercase letter.``() =

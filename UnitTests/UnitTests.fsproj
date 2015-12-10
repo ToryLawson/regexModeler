@@ -55,6 +55,7 @@
     <Content Include="packages.config" />
     <Compile Include="TestHelpers.fs" />
     <Compile Include="QuantifierTests.fs" />
+    <Compile Include="HelpersTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -68,8 +69,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\regexModeler\regexModeler.fsproj">
-      <Name>regexModeler</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\regexModeler\ReverseRegex.fsproj">
+      <Name>ReverseRegex</Name>
       <Project>{236b2bea-73db-41e3-b2ba-8f1392e2c6c4}</Project>
       <Private>True</Private>
     </ProjectReference>

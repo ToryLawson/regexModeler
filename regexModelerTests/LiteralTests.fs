@@ -1,8 +1,8 @@
-﻿namespace regexModelerTests
+﻿namespace ReverseRegexTests
 
 open NUnit.Framework
-open RegexModeler
-open RegexModeler.Main
+open ReverseRegex
+open ReverseRegex.Main
 open System
 
 type LiteralTests () = 

@@ -1,13 +1,13 @@
-﻿namespace RegexModelerTests
+﻿namespace ReverseRegexTests
 
 open NUnit.Framework
-open RegexModeler
-open RegexModeler.Main
+open ReverseRegex
+open ReverseRegex.Main
 
 type CharSetTests () =
 
-    let charGenerator = Factory.GetICharGenerator (testMode = false)
-    let charClass = Factory.GetICharClass (testMode = false, charGenerator = charGenerator)
+    let charGenerator = Factory.GetICharGenerator()
+    let charClass = Factory.GetICharClass(charGenerator)
 
     [<Test>]
     member _x.``getCharFromClass, when given character set, returns random char and rest of regex.``() =

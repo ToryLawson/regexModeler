@@ -1,8 +1,6 @@
 ﻿namespace RegexModeler
 
-    type IOutput =
-        abstract member GetNumber:        int -> int
-        abstract member GetNumberInRange: int option -> int option -> int
+    type ICharGenerator =
         abstract member GetListItem:      'a list -> 'a
         abstract member GetDigit:         char    
         abstract member GetNonDigit:      char       

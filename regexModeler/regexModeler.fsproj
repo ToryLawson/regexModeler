@@ -49,18 +49,16 @@
   <ItemGroup>
     <Compile Include="ICharSet.fs" />
     <Compile Include="ICharClass.fs" />
-    <Compile Include="IOutput.fs" />
+    <Compile Include="ICharGenerator.fs" />
+    <Compile Include="INumGenerator.fs" />
     <Compile Include="IQuantifier.fs" />
     <Compile Include="Exceptions.fs" />
     <Compile Include="ListHelpers.fs" />
     <Compile Include="FullCharSet.fs" />
-    <Compile Include="SingleCharSet.fs" />
-    <Compile Include="RandomOutput.fs" />
-    <Compile Include="DeterministicOutput.fs" />
+    <Compile Include="RandomNumGenerator.fs" />
+    <Compile Include="RandomCharGenerator.fs" />
     <Compile Include="RandomQuantifier.fs" />
-    <Compile Include="DeterministicQuantifier.fs" />
     <Compile Include="RandomCharClass.fs" />
-    <Compile Include="DeterministicCharClass.fs" />
     <Compile Include="Factory.fs" />
     <None Include="App.config" />
     <Compile Include="RegexModeler.fs" />

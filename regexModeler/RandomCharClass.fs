@@ -2,9 +2,9 @@
 
 open ListHelpers
 
-type RandomCharClass(output) =
+type RandomCharClass(charGenerator) =
     
-    member _x.output = output :> IOutput
+    member _x.charGenerator = charGenerator :> ICharGenerator
     member _x.charSet = new FullCharSet() :> ICharSet
 
     interface ICharClass with
@@ -21,18 +21,18 @@ type RandomCharClass(output) =
             let returnChar =
                 if classChars.[classChars.Length - 1] = '^'
                 then
-                    x.output.GetNonListChar <| Array.toList<char> (Array.sub classChars 0 (classChars.Length - 1))
+                    x.charGenerator.GetNonListChar <| Array.toList<char> (Array.sub classChars 0 (classChars.Length - 1))
                 else
-                    x.output.GetListChar <| Array.toList (classChars)     
+                    x.charGenerator.GetListChar <| Array.toList (classChars)     
                     
             (returnChar, str.Substring(str.IndexOf('[') + 1) |> stringToChrs)
 
         member x.processCharClass = function
-            | 'd' -> x.output.GetDigit 
-            | 'D' -> x.output.GetNonDigit 
-            | 'w' -> x.output.GetWordChar 
-            | 'W' -> x.output.GetNonWordChar 
-            | 's' -> x.output.GetSpaceChar
-            | 'S' -> x.output.GetNonSpaceChar
+            | 'd' -> x.charGenerator.GetDigit 
+            | 'D' -> x.charGenerator.GetNonDigit 
+            | 'w' -> x.charGenerator.GetWordChar 
+            | 'W' -> x.charGenerator.GetNonWordChar 
+            | 's' -> x.charGenerator.GetSpaceChar
+            | 'S' -> x.charGenerator.GetNonSpaceChar
             |  x  -> 
                 raise <| InvalidShorthandClassException "Unsupported shorthand character class"

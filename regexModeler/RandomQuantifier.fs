@@ -3,9 +3,9 @@
 open ListHelpers
 open System
 
-type RandomQuantifier(output) =
+type RandomQuantifier(generator) =
 
-    member _x.output = output :> IOutput
+    member _x.generator = generator :> INumGenerator
 
     interface IQuantifier with
     
@@ -23,17 +23,17 @@ type RandomQuantifier(output) =
                             | (true, int) -> Some int
                             | _           -> None)
                          let min, max = range.[0], range.[1]
-                         (x.output.GetNumberInRange min max, rest)          
+                         (x.generator.GetNumberInRange min max, rest)          
                 else
                     match Int32.TryParse quantStr with
                     | (true, int) -> int, rest
                     | _ -> raise <| InvalidQuantityException "Could not parse quantifier."            
             | '*'::xs ->
-                (x.output.GetNumberInRange (Some(0)) (Some(10)), xs)
+                (x.generator.GetNumberInRange (Some(0)) (Some(10)), xs)
             | '+'::xs ->
-                (x.output.GetNumberInRange (Some(1)) (Some(10)), xs)
+                (x.generator.GetNumberInRange (Some(1)) (Some(10)), xs)
             | '?'::xs ->
-                (x.output.GetNumberInRange (Some(0)) (Some(1)), xs)
+                (x.generator.GetNumberInRange (Some(0)) (Some(1)), xs)
             | _::xs -> raise <| InvalidQuantityException "Could not parse quantifier."
                        (0, xs)
             | [] -> raise <| ArgumentNullException "This list is empty, so."

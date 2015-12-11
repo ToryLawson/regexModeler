@@ -32,13 +32,6 @@
             x::(processWordBoundaries xs)
         | x -> x
 
-    let rec expandQuantifiers (n, inputList) = 
-        let nextN = if n = 0 then 1 else n - 1
-        match inputList with
-        | '}'::_ | '*'::_ | '+'::_ | '?'::_ ->                                                                          
-            let (n, rest) = quantifier.getNFromQuantifier inputList in expandQuantifiers(n, rest)
-        | x::xs -> x::expandQuantifiers (n, xs)
-
     let rec repeatChunk inputList n =
         match n with
         | 0 -> []

@@ -5,13 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>d4762f36-0b78-46d4-aa94-e6c69f4e8ae5</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>regexModelerTests</RootNamespace>
-    <AssemblyName>regexModelerTests</AssemblyName>
+    <ProjectGuid>{0d2c636e-f16a-4754-8376-1531cac32991}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>regexModeler</RootNamespace>
+    <AssemblyName>ReverseRegex</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>IntegrationTests</Name>
+    <Name>ReverseRegex</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +22,9 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\regexModelerTests.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Debug\regexModeler.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,8 +33,38 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\regexModelerTests.XML</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>bin\Release\regexModeler.XML</DocumentationFile>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ICharSet.fs" />
+    <Compile Include="ICharClass.fs" />
+    <Compile Include="ICharGenerator.fs" />
+    <Compile Include="IEscape.fs" />
+    <Compile Include="INumGenerator.fs" />
+    <Compile Include="IQuantifier.fs" />
+    <Compile Include="Exceptions.fs" />
+    <Compile Include="ListHelpers.fs" />
+    <Compile Include="FullCharSet.fs" />
+    <Compile Include="NumGenerator.fs" />
+    <Compile Include="CharGenerator.fs" />
+    <Compile Include="Escape.fs" />
+    <Compile Include="Quantifier.fs" />
+    <Compile Include="CharClass.fs" />
+    <Compile Include="Factory.fs" />
+    <Compile Include="RegexModeler.fs" />
+    <None Include="App.config" />
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -48,34 +81,6 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
-  <ItemGroup>
-    <Compile Include="LiteralTests.fs" />
-    <Compile Include="ShorthandCharClassTests.fs" />
-    <Compile Include="QuantifierTests.fs" />
-    <Compile Include="CharSetTests.fs" />
-    <Compile Include="PosixTests.fs" />
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\regexModeler\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\regexModeler\ReverseRegex.fsproj">
-      <Name>ReverseRegex</Name>
-      <Project>{236b2bea-73db-41e3-b2ba-8f1392e2c6c4}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

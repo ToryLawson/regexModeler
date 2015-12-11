@@ -1,13 +1,11 @@
 ﻿namespace UnitTests
 
 open TestHelpers
+open ListHelpers
 open NUnit.Framework
-open ReverseRegex
+open ReverseRegex.Interfaces
 
 type QuantifierTests () =
-
-    let convertToInput (inputStr: string): char list =
-        inputStr.ToCharArray() |> Array.rev |> Array.toList<char>
 
     let numGeneratorMock =   
             {
@@ -22,46 +20,46 @@ type QuantifierTests () =
                                                     0
             }
 
-    let q = new RandomQuantifier(numGeneratorMock) :> IQuantifier
+    let q = new ReverseRegex.Quantifier(numGeneratorMock) :> IQuantifier
 
     [<Test>]
-    member _x.``getNFromQuantifier, when only given single quantifier, returns that number plus an empty list.``() =
-        let input = convertToInput "{3}"
+    member _x.``processQuantifier, when only given single quantifier, returns that number plus an empty list.``() =
+        let input = stringToChrs "{3}"
         let expected = (3, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual
 
     [<Test>]
-    member _x.``getNFromQuantifier, when given range quantifier, returns number within range.``() = 
-        let input = convertToInput "{3,5}"
+    member _x.``processQuantifier, when given range quantifier, returns number within range.``() = 
+        let input = stringToChrs "{3,5}"
         let expected = (4, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual
 
     [<Test>]
-    member _x.``getNFromQuantifier, when given open-ended range quantifier, returns number within range.``() = 
-        let input = convertToInput "{3,}"
+    member _x.``processQuantifier, when given open-ended range quantifier, returns number within range.``() = 
+        let input = stringToChrs "{3,}"
         let expected = ((3 + 2*3)/2, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual
 
     [<Test>]
-    member _x.``getNFromQuantifier, when given star quantifier, returns 5.``() = 
-        let input = convertToInput "*"
+    member _x.``processQuantifier, when given star quantifier, returns 5.``() = 
+        let input = stringToChrs "*"
         let expected = (5, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual
     
     [<Test>]
-    member _x.``getNFromQuantifier, when given plus quantifier, returns 1.``() =
-        let input = convertToInput "+"
+    member _x.``processQuantifier, when given plus quantifier, returns 1.``() =
+        let input = stringToChrs "+"
         let expected = ((1 + 10) / 2, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual
 
     [<Test>]
-    member _x.``getNFromQuantifier, when given question mark quantifier, returns 0.``() =
-        let input = convertToInput "?"
+    member _x.``processQuantifier, when given question mark quantifier, returns 0.``() =
+        let input = stringToChrs "?"
         let expected = ((0 + 1) / 2, List<char>.Empty)
-        let actual = q.getNFromQuantifier(input)
+        let actual = q.processQuantifier(input)
         Assert.PairsEqual expected actual

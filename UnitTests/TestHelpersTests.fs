@@ -3,7 +3,7 @@
 open ListHelpers
 open NUnit.Framework
 
-type HelpersTests() =
+type TestHelpersTests() =
     
     [<Test>]
     member x.``chrsToString correctly joins a list of chars into a string.``() =
@@ -30,9 +30,18 @@ type HelpersTests() =
         Assert.AreEqual(expected, actual)
 
     [<Test>]
-    member x.``subtractList correctly subtracts two lists, treating them as sets.``() =
+    member x.``subtractList correctly subtracts two lists.``() =
         let list1 = ['1';'2';'3';'4']
         let list2 = ['2';'3']
+        let expected = ['1';'4']
+        let actual = subtractList list1 list2
+        Assert.AreEqual(expected, actual)
+
+    
+    [<Test>]
+    member x.``subtractList correctly subtracts two lists, ignoring duplicates.``() =
+        let list1 = ['1';'2';'2';'2';'3';'4']
+        let list2 = ['2';'3';'3']
         let expected = ['1';'4']
         let actual = subtractList list1 list2
         Assert.AreEqual(expected, actual)

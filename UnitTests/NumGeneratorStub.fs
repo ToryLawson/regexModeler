@@ -2,9 +2,12 @@
 
 open ReverseRegex.Interfaces
 
-type NumGeneratorStub() =
+type NumGeneratorStub(?GetNumber, ?GetNumberInRange) =
+
+    member private _x.GetNumberStub = defaultArg GetNumber (fun _i -> 0)
+    member private _x.GetNumberInRangeStub = defaultArg GetNumberInRange (fun _i1 _i2 -> 0)
 
     interface INumGenerator with
 
-        member _x.GetNumber _i =                0
-        member _x.GetNumberInRange _ix _iy =    0
+        member x.GetNumber i = x.GetNumberStub i
+        member x.GetNumberInRange i1 i2 = x.GetNumberInRangeStub i1 i2

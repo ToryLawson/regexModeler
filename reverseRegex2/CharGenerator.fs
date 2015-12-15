@@ -9,7 +9,7 @@ open ReverseRegex.Interfaces
         let random = System.Random()
 
         interface ICharGenerator with
-            member x.GetNListItems n (lst: 'a list) =
+            member x.GetNListItems n (lst: char list) =
                 if n = 0 then [] else lst.[random.Next(lst.Length - 1)]::(x:>ICharGenerator).GetNListItems (n-1) lst
 
             member x.GetNDigits n = (x:>ICharGenerator).GetNListItems n charSet.digitChars

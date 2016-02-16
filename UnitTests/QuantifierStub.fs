@@ -1,12 +1,12 @@
 ﻿namespace UnitTests.Stubs
 
 open ReverseRegex.Interfaces
+open UnitTests.TestHelpers
 
-type QuantifierStub(?processQuantifierFn: char list -> int * char list) =
+type QuantifierStub(?processQuantifierFn) =
 
-    member private b.processQuantifierStub = defaultArg processQuantifierFn (fun (c:char list) -> (0,[]))
+    member private _x.processQuantifierStub = CreateStub(processQuantifierFn)
 
     interface IQuantifier with
     
         member x.processQuantifier cs = x.processQuantifierStub cs
-

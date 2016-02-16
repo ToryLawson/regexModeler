@@ -10,9 +10,9 @@ type QuantifierTests () =
     let numGeneratorMock =   
             {
                 new INumGenerator with
-                    member x.GetNumber max = 
+                    member _x.GetNumber max = 
                         (max / 2)
-                    member x.GetNumberInRange min max = 
+                    member _x.GetNumberInRange min max = 
                         match (min, max) with
                         | (Some(min), Some(max)) -> (min + max) / 2
                         | (Some(min), None)      -> (min + min*2) / 2 

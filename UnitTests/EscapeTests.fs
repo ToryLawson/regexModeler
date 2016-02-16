@@ -14,12 +14,15 @@ type EscapeTests () =
         let charClass' = defaultArg charClass (new CharClassStub() :> ICharClass)
         ReverseRegex.Factory.GetIEscape(quantifier', charGenerator', charClass')
 
-
     [<Test>]
     member x.``processEscape, when given literal slash and no quantifier, returns slash plus remaining chars.``() =
-        let quantifierMock = new QuantifierStub(processQuantifierFn = (fun c -> (1, ['t';'e';'s';'t'])))
-        let escape = x.GetEscape(quantifierMock)
-        let input = stringToChrs @"\test"
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = fun _c -> (1, ['t';'e';'s';'t'])) :> IQuantifier
+        let charGeneratorMock = 
+            new CharGeneratorStub(
+                GetNLiterals = fun _i _c -> ['\\']) :> ICharGenerator
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+        let input = stringToChrs "\\test"
         let expected = (['\\'], ['t';'e';'s';'t'])
         let actual = escape.processEscape input
         System.Console.WriteLine actual |> ignore
@@ -27,19 +30,66 @@ type EscapeTests () =
 
     [<Test>]
     member x.``processEscape, when given literal slash and a quantifier, returns slash the right number of times plus remaining chars.``() =
-        let quantifierMock = new QuantifierStub(processQuantifierFn = (fun c-> (2, ['t';'e';'s';'t'])))
-        let escape = x.GetEscape(quantifierMock)
-        let input = stringToChrs @"\{2}test"
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (2, ['t';'e';'s';'t'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNLiterals = (fun _i _c -> ['\\';'\\']))
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+
+        let input = stringToChrs "\\{2}test"
         let expected = (['\\';'\\'], ['t';'e';'s';'t'])
         let actual = escape.processEscape input
         System.Console.WriteLine actual |> ignore
         Assert.PairsEqual expected actual
 
     [<Test>]
-    member x.``processEscape, when given control char and no quantifier, returns control char and empty list.``() =
-        let escape = x.GetEscape()
-        let input = stringToChrs @"cM"
-        let expected = (['^';'M'], [])
+    member x.``processEscape, when given control char and no quantifier, returns control char and rest of list.``() =
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['b';'o';'o'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNStringsAsList = (fun _i _c -> ['^';'M']))
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+        let input = stringToChrs @"cMboo"
+        let expected = (['^';'M'], ['b';'o';'o'])
         let actual = escape.processEscape input
-        System.Console.WriteLine actual |> ignore
         Assert.PairsEqual expected actual
+
+    [<Test>]
+    member x.``processEscape, when given 2-digit hex char and no quantifier, returns hex char and rest of list.``() =
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['b';'o';'o'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNStringsAsList = (fun _i _c -> ['F']))
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+        let input = stringToChrs @"x{46}boo"
+        let expected = (['F'], ['b'; 'o'; 'o'])        
+        let actual = escape.processEscape input
+        System.Console.WriteLine(actual)
+        Assert.PairsEqual expected actual
+        
+    [<Test>]
+    member x.``processEscape, when given 4-digit(x) hex char and no quantifier, returns hex char and rest of list.``() =
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['b';'o';'o'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNStringsAsList = (fun _i _c -> ['F']))
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+        let input = stringToChrs @"x{0046}boo"
+        let expected = (['F'], ['b'; 'o'; 'o'])        
+        let actual = escape.processEscape input
+        System.Console.WriteLine(actual)
+        Assert.PairsEqual expected actual
+            
+    [<Test>]
+    member x.``processEscape, when given 4-digit(u) hex char and no quantifier, returns hex char and rest of list.``() =
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['b';'o';'o'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNStringsAsList = (fun _i _c -> ['F']))
+        let escape = x.GetEscape(quantifierMock, charGeneratorMock)
+        let input = stringToChrs @"u0046boo"
+        let expected = (['F'], ['b'; 'o'; 'o'])        
+        let actual = escape.processEscape input
+        System.Console.WriteLine(actual)
+        Assert.PairsEqual expected actual
+

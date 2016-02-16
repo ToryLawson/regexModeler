@@ -15,5 +15,5 @@
     /// You have to follow at least some rules sometimes.
     exception MalformedRegexException of string
 
-
-
+    /// Mock objects need implementations of all exercised members.
+    exception UnimplementedMemberException of string

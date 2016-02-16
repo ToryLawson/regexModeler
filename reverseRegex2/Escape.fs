@@ -11,7 +11,7 @@ type Escape (quantifier, charGenerator, charClass) =
 
     interface IEscape with
 
-        member x.processEscape (inputList: char list) : char list * char list = 
+        member _x.processEscape (inputList: char list) : char list * char list = 
             match inputList with
             | 'c'::ctrlChar::xs -> 
                 let (n, rest) = quantifier.processQuantifier xs
@@ -24,12 +24,12 @@ type Escape (quantifier, charGenerator, charClass) =
             | 'x'::'{'::hex1::hex2::'}'::xs ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2]]
-                (iterResult, rest)
+                (iterResult, xs)
             | 'x'::'{'::hex1::hex2::hex3::hex4::'}'::xs  
             |  'u'::hex1::hex2::hex3::hex4::xs ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2; hex3; hex4]]
-                (iterResult, rest)
+                (iterResult, xs)
             | x::xs ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charClass.getNCharsFromClass n x

@@ -39,10 +39,11 @@ type CharSetStub(?printableChars:  char list,
         member _x.digitChars =          defaultArg digitChars []
         member _x.spaceChars =          defaultArg spaceChars []
 
-        member x.Contains cs c =       x.ContainsStub cs c            
-        member x.IsWord c =            x.IsWordStub c
-        member x.IsNonWord c =         x.IsNonWordStub c
-        member x.GetUnicodeChar i =    x.GetUnicodeCharStub i
+        member x.Contains cs c =        x.ContainsStub cs c            
+        member x.IsWord c =             x.IsWordStub c
+        member x.IsNonWord c =          x.IsNonWordStub c
+        member x.GetUnicodeChar i =     x.GetUnicodeCharStub i
+        member x.GetPosixCharSet s =    x.GetPosixCharSetStub s
 
         member _x.posixAlnum =          defaultArg posixAlnum []
         member _x.posixAlpha =          defaultArg posixAlpha []
@@ -59,4 +60,3 @@ type CharSetStub(?printableChars:  char list,
         member _x.posixWord =           defaultArg posixWord  []
         member _x.posixXdigit =         defaultArg posixXDigit []
 
-        member x.GetPosixCharSet _s =  x.GetPosixCharSetStub _s

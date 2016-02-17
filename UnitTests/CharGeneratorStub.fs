@@ -15,17 +15,17 @@ type CharGeneratorStub(?GetNListItems,
                        ?GetNNonListChars,
                        ?GetNStringsAsList) =
                        
-    member private x.GetNListItems =        CreateStub(GetNListItems)
-    member private x.GetNDigits =           CreateStub(GetNDigits)
-    member private x.GetNNonDigits =        CreateStub(GetNNonDigits)
-    member private x.GetNWordChars =        CreateStub(GetNWordChars)
-    member private x.GetNNonWordChars =     CreateStub(GetNNonWordChars)
-    member private x.GetNSpaceChars =       CreateStub(GetNSpaceChars)
-    member private x.GetNNonSpaceChars =    CreateStub(GetNNonSpaceChars)
-    member private x.GetNLiterals =         CreateStub(GetNLiterals)
-    member private x.GetNListChars =        CreateStub(GetNListChars)
-    member private x.GetNNonListChars =     CreateStub(GetNNonListChars)
-    member private x.GetNStringsAsList =    CreateStub(GetNStringsAsList)
+    member private _x.GetNListItems =        CreateStub GetNListItems       "GetNListItems"
+    member private _x.GetNDigits =           CreateStub GetNDigits          "GetNDigits"
+    member private _x.GetNNonDigits =        CreateStub GetNNonDigits       "GetNNonDigits"
+    member private _x.GetNWordChars =        CreateStub GetNWordChars       "GetNWordChars"
+    member private _x.GetNNonWordChars =     CreateStub GetNNonWordChars    "GetNNonWordChars"
+    member private _x.GetNSpaceChars =       CreateStub GetNSpaceChars      "GetNSpaceChars"
+    member private _x.GetNNonSpaceChars =    CreateStub GetNNonSpaceChars   "GetNNonSpaceChars"
+    member private _x.GetNLiterals =         CreateStub GetNLiterals        "GetNLiterals"
+    member private _x.GetNListChars =        CreateStub GetNListChars       "GetNListChars"
+    member private _x.GetNNonListChars =     CreateStub GetNNonListChars    "GetNNonListChars"
+    member private _x.GetNStringsAsList =    CreateStub GetNStringsAsList   "GetNStringsAsList"
 
     interface ICharGenerator with
 

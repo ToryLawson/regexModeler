@@ -79,4 +79,3 @@ type ShorthandCharClassTests () =
         let badRegex = @"hel\(lo"
         let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
         Assert.That(badProcessInputCall, Throws.TypeOf<InvalidShorthandClassException>())
-

@@ -19,5 +19,8 @@ type Factory() =
     static member GetICharClass (charGenerator) : ICharClass = 
         new CharClass(charGenerator) :> ICharClass
 
-    static member GetIEscape (quantifier, charGenerator, charClass) : IEscape =
-        new Escape(quantifier, charGenerator, charClass) :> IEscape 
+    static member GetEscapeMode (quantifier, charGenerator, charClass) : IParseMode =
+        new EscapeMode(quantifier, charGenerator, charClass) :> IParseMode 
+
+    static member GetBracketClassMode(quantifier, charGenerator, charClass) : IParseMode = 
+        new BracketClassMode(quantifier, charGenerator, charClass) :> IParseMode

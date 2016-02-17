@@ -1,13 +1,14 @@
 ﻿namespace UnitTests.Stubs
 
 open ReverseRegex.Interfaces
+open UnitTests.TestHelpers
 
 type CharClassStub(?getCharFromClass, ?getNCharsFromClass) = 
 
-    member private _x.getCharFromClassStub = defaultArg getCharFromClass (fun _c -> ('#', []))
-    member private _x.getNCharsFromClassStub = defaultArg getNCharsFromClass (fun _i _c -> []) 
+    member private _x.getCharFromClassStub =      CreateStub getCharFromClass      "getCharFromClass"
+    member private _x.getNCharsFromClassStub =    CreateStub getNCharsFromClass    "getNCharsFromClass"
 
     interface ICharClass with
 
-        member x.getCharFromClass cs = x.getCharFromClassStub cs
-        member x.getNCharsFromClass i c = x.getNCharsFromClassStub i c
+        member x.getCharFromClass cs =      x.getCharFromClassStub cs
+        member x.getNCharsFromClass i c =   x.getNCharsFromClassStub i c

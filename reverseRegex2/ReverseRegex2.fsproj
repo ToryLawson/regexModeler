@@ -50,7 +50,7 @@
     <Compile Include="ICharSet.fs" />
     <Compile Include="ICharClass.fs" />
     <Compile Include="ICharGenerator.fs" />
-    <Compile Include="IEscape.fs" />
+    <Compile Include="IParseMode.fs" />
     <Compile Include="INumGenerator.fs" />
     <Compile Include="IQuantifier.fs" />
     <Compile Include="Exceptions.fs" />
@@ -58,7 +58,8 @@
     <Compile Include="FullCharSet.fs" />
     <Compile Include="NumGenerator.fs" />
     <Compile Include="CharGenerator.fs" />
-    <Compile Include="Escape.fs" />
+    <Compile Include="BracketClassMode.fs" />
+    <Compile Include="EscapeMode.fs" />
     <Compile Include="Quantifier.fs" />
     <Compile Include="CharClass.fs" />
     <Compile Include="Factory.fs" />

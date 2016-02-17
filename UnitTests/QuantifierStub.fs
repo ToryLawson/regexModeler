@@ -5,7 +5,7 @@ open UnitTests.TestHelpers
 
 type QuantifierStub(?processQuantifierFn) =
 
-    member private _x.processQuantifierStub = CreateStub(processQuantifierFn)
+    member private _x.processQuantifierStub = CreateStub processQuantifierFn "processQuantifier"
 
     interface IQuantifier with
     

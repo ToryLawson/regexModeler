@@ -1,11 +1,12 @@
 ﻿namespace UnitTests.Stubs
 
 open ReverseRegex.Interfaces
+open UnitTests.TestHelpers
 
 type NumGeneratorStub(?GetNumber, ?GetNumberInRange) =
 
-    member private _x.GetNumberStub =           defaultArg GetNumber (fun _i -> 0)
-    member private _x.GetNumberInRangeStub =    defaultArg GetNumberInRange (fun _i1 _i2 -> 0)
+    member private _x.GetNumberStub =           CreateStub GetNumber "GetNumber"
+    member private _x.GetNumberInRangeStub =    CreateStub GetNumberInRange "GetNumberInRange"
 
     interface INumGenerator with
 

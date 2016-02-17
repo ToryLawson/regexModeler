@@ -3,15 +3,15 @@
 open ListHelpers
 open ReverseRegex.Interfaces
 
-type Escape (quantifier, charGenerator, charClass) =
+type EscapeMode (quantifier, charGenerator, charClass) =
     
     let quantifier = quantifier :> IQuantifier
     let charGenerator = charGenerator :> ICharGenerator
     let charClass = charClass :> ICharClass
 
-    interface IEscape with
+    interface IParseMode with
 
-        member _x.processEscape (inputList: char list) : char list * char list = 
+        member _x.processInMode (inputList: char list) : char list * char list = 
             match inputList with
             | 'c'::ctrlChar::xs -> 
                 let (n, rest) = quantifier.processQuantifier xs
@@ -35,5 +35,3 @@ type Escape (quantifier, charGenerator, charClass) =
                 let iterResult = charClass.getNCharsFromClass n x
                 (iterResult, rest)
             | [] -> ([], [])
-                
-

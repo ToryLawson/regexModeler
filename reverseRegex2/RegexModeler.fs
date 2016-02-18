@@ -9,8 +9,9 @@
     let charSet = Factory.GetICharset()
     let quantifier = Factory.GetIQuantifier(numGenerator)
     let charClass = Factory.GetICharClass(charGenerator, numGenerator)
-    let escape = Factory.GetEscapeMode(quantifier, charGenerator, charClass)
-    let bracketClass = Factory.GetBracketClassMode(quantifier, charGenerator, charClass)
+
+    let escape = new EscapeMode(quantifier, charGenerator, charClass)
+    let bracketClass = new BracketClassMode(quantifier, charGenerator, charSet)
     
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->

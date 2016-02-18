@@ -9,6 +9,8 @@ type EscapeMode (quantifier, charGenerator, charClass) =
     let charGenerator = charGenerator :> ICharGenerator
     let charClass = charClass :> ICharClass
 
+    member x.processInMode = (x :> IParseMode).processInMode
+
     interface IParseMode with
 
         member _x.processInMode (inputList: char list) : char list * char list = 

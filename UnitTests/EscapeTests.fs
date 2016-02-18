@@ -3,6 +3,7 @@
 open ListHelpers
 open NUnit.Framework
 open ReverseRegex.Interfaces
+open ReverseRegex
 open UnitTests.Stubs
 open TestHelpers
 
@@ -12,7 +13,7 @@ type EscapeTests () =
         let quantifier' = defaultArg quantifier (new QuantifierStub() :> IQuantifier)
         let charGenerator' = defaultArg charGenerator (new CharGeneratorStub() :> ICharGenerator)
         let charClass' = defaultArg charClass (new CharClassStub() :> ICharClass)
-        ReverseRegex.Factory.GetEscapeMode(quantifier', charGenerator', charClass')
+        new EscapeMode(quantifier', charGenerator', charClass')
 
     [<Test>]
     member x.``processEscape, when given literal slash and no quantifier, returns slash plus remaining chars.``() =

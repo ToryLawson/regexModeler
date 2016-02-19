@@ -9,11 +9,13 @@ open TestHelpers
 
 type BracketClassModeTests () =
 
-    member _x.GetBracketClassMode (?quantifier, ?charGenerator, ?charSet) =
+    member _x.GetBracketClassMode (?quantifier, ?charGenerator, ?numGenerator, ?charClass, ?charSet) =
         let quantifier' = defaultArg quantifier (new QuantifierStub() :> IQuantifier)
         let charGenerator' = defaultArg charGenerator (new CharGeneratorStub() :> ICharGenerator)
+        let numGenerator' = defaultArg numGenerator (new NumGeneratorStub() :> INumGenerator)
+        let charClass' = defaultArg charClass (new CharClass(charGenerator', numGenerator') :> ICharClass)
         let charSet' = defaultArg charSet (new CharSetStub() :> ICharSet)
-        new BracketClassMode(quantifier', charGenerator', charSet')
+        new BracketClassMode(quantifier', charGenerator', charClass', charSet')
 
     [<Test>]
     member x.``extractClassChars, when given simple char set, returns set chars and remainder`` () =

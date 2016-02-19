@@ -3,10 +3,11 @@
 open ListHelpers
 open ReverseRegex.Interfaces
 
-type BracketClassMode (quantifier, charGenerator, charSet) =
+type BracketClassMode (quantifier, charGenerator, charClass, charSet) =
     
     let quantifier = quantifier :> IQuantifier
     let charGenerator = charGenerator :> ICharGenerator
+    let charClass = charClass :> ICharClass
     let charSet = charSet :> ICharSet
 
     member x.processInMode = (x :> IParseMode).processInMode
@@ -17,7 +18,9 @@ type BracketClassMode (quantifier, charGenerator, charSet) =
             | '\\'::']'::cs     -> extractClassCharsLoop (cs, ']'::acc)   
             | '\\'::'\\'::cs    -> extractClassCharsLoop (cs, '\\'::acc)
             | '\\'::'-'::cs     -> extractClassCharsLoop (cs, '-'::acc)
-            | '-'::']'::cs      -> (List.rev ('-'::acc), cs)
+            | '\\'::cs          -> let c = fst <| charClass.getCharFromClass cs
+                                   extractClassCharsLoop (cs, c::acc)
+            | '-'::']'::cs      -> (List.rev <| '-'::acc, cs)
             | ']'::cs           -> (List.rev acc, cs)
             | c::cs             -> extractClassCharsLoop (cs, c::acc)
             | []                -> failwith "Unclosed bracketed character class"

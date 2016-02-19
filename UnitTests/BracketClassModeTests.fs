@@ -39,4 +39,44 @@ type BracketClassModeTests () =
 
     [<Test>]
     member x.``processInMode, when given simple char list and no quantifier, returns one item and remainder``() =
-        Assert.IsTrue true
+        let charSetMock = 
+            new CharSetStub(printableChars = ['a'; 'z'])
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['r'; 'e'; 's'; 't'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNListChars = (fun _i _cs -> ['a']))
+
+        let bracketMode = x.GetBracketClassMode(quantifier = quantifierMock, 
+                                                charSet = charSetMock,
+                                                charGenerator = charGeneratorMock)
+
+        let classChars = "abc123"
+        let inputChars = stringToChrs "abc123]rest"
+        let expectedRemainder = (stringToChrs "rest")
+        let result, actualRemainder = bracketMode.processInMode inputChars
+
+        Assert.True(stringToChrs classChars |> List.exists ((=) result.[0]))
+        Assert.That(result.Length = 1)
+        Assert.AreEqual (expectedRemainder, actualRemainder)
+    
+    [<Test>]
+    member x.``processInMode, when given negated char list and no quantifier, returns one item and remainder``() =
+        let charSetMock = 
+            new CharSetStub(printableChars = ['a'; 'z'])
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['r'; 'e'; 's'; 't'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNListChars = (fun _i _cs -> ['a']))
+
+        let bracketMode = x.GetBracketClassMode(quantifier = quantifierMock, 
+                                                charSet = charSetMock,
+                                                charGenerator = charGeneratorMock)
+
+        let classChars = "abc123"
+        let inputChars = stringToChrs "^abc123]rest"
+        let expectedRemainder = (stringToChrs "rest")
+        let result, actualRemainder = bracketMode.processInMode inputChars
+
+        Assert.True(stringToChrs classChars |> List.exists ((=) result.[0]))
+        Assert.That(result.Length = 1)
+        Assert.AreEqual (expectedRemainder, actualRemainder)

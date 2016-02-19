@@ -1,6 +1,5 @@
 ﻿namespace ReverseRegex
 
-open ListHelpers
 open ReverseRegex.Interfaces
 
 type BracketClassMode (quantifier, charGenerator, charSet) =

@@ -65,11 +65,12 @@ type ShorthandCharClassTests () =
         Assert.IsTrue(modelMatch.Success)
 
     [<Test>]
-    member _x.``When given a word boundary char class, inserts space``() =
+    member _x.``When given a word boundary char class, inserts whitespace``() =
         let testRegex = @"hello\bworld"
-        let expected = "hello world"
-        let actual = processInput <| stringToChrs testRegex
-        Assert.AreEqual(expected, actual)
+        let modelString = stringToChrs testRegex |> processInput |> chrsToString
+        let matchString = @"hello\sworld"
+        let modelMatch = Regex.Match (modelString, matchString)
+        Assert.IsTrue(modelMatch.Success)
 
     [<TestCase @"hello \bworld">]
     [<TestCase @"hello\b world">]

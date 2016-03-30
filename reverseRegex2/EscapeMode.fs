@@ -24,12 +24,25 @@ type EscapeMode (quantifier, charGenerator, charClass) =
                 let (n, rest) = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNLiterals n '\\'
                 (iterResult, rest)
-            | 'x'::'{'::hex1::hex2::'}'::xs ->
+            | 'x'::'{'::hex1::'}'::xs 
+            | 'u'::'{'::hex1::'}'::xs ->
+                let n, rest = quantifier.processQuantifier xs                
+                let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1]]
+                (iterResult, rest)
+            | 'x'::'{'::hex1::hex2::'}'::xs 
+            | 'u'::'{'::hex1::hex2::'}'::xs ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2]]
-                (iterResult, xs)
+                (iterResult, rest)
+            | 'x'::'{'::hex1::hex2::hex3::'}'::xs 
+            | 'u'::'{'::hex1::hex2::hex3::'}'::xs ->
+                let n, rest = quantifier.processQuantifier xs
+                let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2; hex3]]
+                (iterResult, rest)                
             | 'x'::'{'::hex1::hex2::hex3::hex4::'}'::xs  
-            |  'u'::hex1::hex2::hex3::hex4::xs ->
+            | 'x'::hex1::hex2::hex3::hex4::xs  
+            | 'u'::'{'::hex1::hex2::hex3::hex4::'}'::xs  
+            | 'u'::hex1::hex2::hex3::hex4::xs  ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2; hex3; hex4]]
                 (iterResult, xs)

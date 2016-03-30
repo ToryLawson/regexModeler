@@ -36,7 +36,9 @@ type CharClass(charGenerator, numGenerator) =
             | 'D' -> charGenerator.GetNNonDigits n 
             | 'w' -> charGenerator.GetNWordChars n
             | 'W' -> charGenerator.GetNNonWordChars n
-            | 's' -> charGenerator.GetNSpaceChars n
-            | 'S' -> charGenerator.GetNNonSpaceChars n
+            | 'b' | 's' 
+                  -> charGenerator.GetNSpaceChars n
+            | 'B' | 'S' 
+                  -> charGenerator.GetNNonSpaceChars n
             |  _  -> 
                 raise <| InvalidShorthandClassException "Unsupported shorthand character class"

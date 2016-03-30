@@ -27,10 +27,14 @@ let IsHexDigit chr =
 
 let getUnicodeChar chrs =
     match chrs with
-    | [hex1; hex2; hex3; hex4] -> 
-        char <| Int32.Parse (chrsToString [hex1; hex2; hex3; hex4], Globalization.NumberStyles.HexNumber)
+    | [hex1] ->
+        char <| Int32.Parse (chrsToString ['0';'0';'0';hex1], Globalization.NumberStyles.HexNumber)
     | [hex1; hex2] -> 
         char <| Int32.Parse (chrsToString ['0';'0';hex1; hex2], Globalization.NumberStyles.HexNumber)
+    | [hex1; hex2; hex3] ->        
+        char <| Int32.Parse (chrsToString ['0';hex1; hex2; hex3], Globalization.NumberStyles.HexNumber)
+    | [hex1; hex2; hex3; hex4] -> 
+        char <| Int32.Parse (chrsToString [hex1; hex2; hex3; hex4], Globalization.NumberStyles.HexNumber)
     | invalidInput -> 
         let errString = sprintf "Expected two or four hex characters but got %s" (invalidInput.ToString())
         invalidArg errString ""

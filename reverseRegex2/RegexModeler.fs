@@ -46,17 +46,21 @@
         validateRegex inputList
         processWordBoundaries inputList
 
-    let rec processInput (inputList) =
-        match inputList with
-        | '\\'::xs ->
-            let (result, rest) = escape.processInMode xs
-            result @ processInput rest            
-        | '['::xs ->
-            let (result, rest) = bracketClass.processInMode xs
-            result @ processInput rest
-        | x::xs ->                                                                                                      
-            x::processInput xs      
-        | x -> x
+    let processInput (inputList) =
+        let rec processInputLoop (inputList) =  
+            match inputList with
+            | '\\'::xs ->
+                let (result, rest) = escape.processInMode xs
+                result @ processInputLoop rest            
+            | '['::xs ->
+                let (result, rest) = bracketClass.processInMode xs
+                result @ processInputLoop rest
+            | x::xs ->                                                                                                      
+                x::processInputLoop xs      
+            | x -> x
+        
+        let preProcessedInput = preProcessInput inputList 
+        processInputLoop preProcessedInput
 
     [<EntryPoint>]
     let main argv = 

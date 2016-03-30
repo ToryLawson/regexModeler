@@ -1,5 +1,6 @@
 ﻿namespace ReverseRegexTests
 
+open ListHelpers
 open NUnit.Framework
 open System
 open System.Text.RegularExpressions
@@ -12,9 +13,9 @@ type QuantifierTests () =
         match times with 
         | 0 -> success
         | x -> 
-            let modelString = processUnRevInput testRegex
+            let modelString = processInput <| stringToChrs testRegex
             Console.WriteLine(modelString) |> ignore
-            let modelMatch = Regex.Match (modelString, matchCondition)
+            let modelMatch = Regex.Match (chrsToString <| modelString, matchCondition)
             testLoop (testRegex, matchCondition, x - 1, success || modelMatch.Success) 
 
     [<TestCase (@"he\d{3}lo", @"he\d{3}lo")>]                // digit char class
@@ -27,8 +28,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]{3}lo", @"he[LlMm]{3}lo")>]        // Set
     [<TestCase (@"he[^LlMm]{3}lo", @"he[^LlMm]{3}lo")>]      // Negated set
     member _x.``When given a single quantifier and a value, repeats value``(testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Assert.True(modelMatch.Success)
 
     [<TestCase (@"he\d{3,6}lo", @"he\d{3,6}lo")>]                // digit char class
@@ -41,8 +42,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]{3,6}lo", @"he[LlMm]{3,6}lo")>]        // Set
     [<TestCase (@"he[^LlMm]{3,6}lo", @"he[^LlMm]{3,6}lo")>]      // Negated set
     member _x.``When given a range quantifier and a value, repeats value`` (testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Assert.True(modelMatch.Success)
             
     [<TestCase (@"he\d{,3}lo")>]                             // digit char class
@@ -55,7 +56,7 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]{,3}lo")>]                         // Set
     [<TestCase (@"he[^LlMm]{,3}lo")>]                        // Negated set
     member _x.``When given an no-minimum quantifier and a value, raises exception``(testRegex) =
-        let badProcessInputCall = fun() -> processUnRevInput testRegex |> ignore
+        let badProcessInputCall = fun() -> stringToChrs testRegex |> processInput |> ignore
         Assert.That(badProcessInputCall, Throws.TypeOf<InvalidQuantityException>())
 
     [<TestCase (@"he\d{3,}lo", @"he\d{3,13}lo")>]                  // digit char class
@@ -68,8 +69,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]{3,}lo", @"he[LlMm]{3,}lo")>]            // Set
     [<TestCase (@"he[^LlMm]{3,}lo", @"he[^LlMm]{3,}lo")>]          // Negated set
     member _x.``When given a no-maximum quantifier and a value, repeats value`` (testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Assert.True(modelMatch.Success)
 
     [<TestCase (@"he\d*lo", @"he\d{0,10}lo")>]                // digit char class
@@ -82,8 +83,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]*lo", @"he[LlMm]{0,10}lo")>]        // Set
     [<TestCase (@"he[^LlMm]*lo", @"he[^LlMm]{0,10}lo")>]      // Negated set
     member _x.``When given a star quantifier, returns between 0 and 10 repeated chars``(testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
@@ -97,8 +98,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]+lo", @"he[LlMm]{1,10}lo")>]        // Set
     [<TestCase (@"he[^LlMm]+lo", @"he[^LlMm]{1,10}lo")>]      // Negated set
     member _x.``When given a plus quantifier, returns between 1 and 10 repeated chars``(testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
@@ -112,8 +113,8 @@ type QuantifierTests () =
     [<TestCase (@"he[LlMm]?lo", @"he[LlMm]{0,1}lo")>]        // Set
     [<TestCase (@"he[^LlMm]?lo", @"he[^LlMm]{0,1}lo")>]      // Negated set
     member _x.``When given a question mark quantifier, returns either 0 or 1 char``(testRegex, passRegex) =
-        let modelString = processUnRevInput testRegex
-        let modelMatch = Regex.Match(modelString, passRegex)
+        let modelString = processInput <| stringToChrs testRegex
+        let modelMatch = Regex.Match(chrsToString modelString, passRegex)
         Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
@@ -140,12 +141,11 @@ type QuantifierTests () =
     [<Test>]
     member _x.``When given a word boundary quantifier, throws exception``() =
         let badRegex = @"hello\b{3}world"
-        let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
+        let badProcessInputCall = fun() -> stringToChrs badRegex |> processInput |> ignore
         Assert.That(badProcessInputCall, Throws.TypeOf<InvalidQuantifierTargetException>())
 
     [<Test>]
     member _x.``When given a non-digit quantifier, throws exception``() =
         let badRegex = @"hello\d{n}world"
-        let badProcessInputCall = fun() -> processUnRevInput badRegex |> ignore
+        let badProcessInputCall = fun() -> stringToChrs badRegex |> processInput |> ignore
         Assert.That(badProcessInputCall, Throws.TypeOf<InvalidQuantityException>())
-

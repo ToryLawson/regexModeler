@@ -1,5 +1,6 @@
 ﻿namespace ReverseRegex
 
+open System
 open ListHelpers
 open ReverseRegex.Interfaces
 
@@ -17,7 +18,7 @@ type EscapeMode (quantifier, charGenerator, charClass) =
             match inputList with
             | 'c'::ctrlChar::xs -> 
                 let (n, rest) = quantifier.processQuantifier xs
-                let iterResult = charGenerator.GetNStringsAsList n <| chrsToString ['^'; ctrlChar]
+                let iterResult = charGenerator.GetNStringsAsList n <| chrsToString ['^'; Char.ToUpper ctrlChar]
                 (iterResult, rest)
             | '\\'::xs ->
                 let (n, rest) = quantifier.processQuantifier xs

@@ -55,7 +55,7 @@
             let (result, rest) = bracketClass.processInMode xs
             result @ processInput rest
         | x::xs ->                                                                                                      
-            x::processInput inputList      
+            x::processInput xs      
         | x -> x
 
     [<EntryPoint>]

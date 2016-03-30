@@ -38,5 +38,5 @@ type CharClass(charGenerator, numGenerator) =
             | 'W' -> charGenerator.GetNNonWordChars n
             | 's' -> charGenerator.GetNSpaceChars n
             | 'S' -> charGenerator.GetNNonSpaceChars n
-            |  x  -> 
+            |  _  -> 
                 raise <| InvalidShorthandClassException "Unsupported shorthand character class"

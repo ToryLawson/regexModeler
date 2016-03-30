@@ -1,5 +1,6 @@
 ﻿namespace ReverseRegexTests
 
+open ListHelpers
 open NUnit.Framework
 open ReverseRegex
 open ReverseRegex.Main
@@ -7,7 +8,8 @@ open ReverseRegex.Main
 type CharSetTests () =
 
     let charGenerator = Factory.GetICharGenerator()
-    let charClass = Factory.GetICharClass(charGenerator)
+    let numGenerator = Factory.GetINumGenerator()
+    let charClass = Factory.GetICharClass(charGenerator, numGenerator)
 
     [<Test>]
     member _x.``getCharFromClass, when given character set, returns random char and rest of regex.``() =
@@ -20,27 +22,27 @@ type CharSetTests () =
     [<Test>]
     member _x.``When given an empty set, yields an error.``() =
         let testRegex = @"hello[]world"
-        let badRegexResult = fun() -> processUnRevInput testRegex |> ignore
+        let badRegexResult = fun() -> stringToChrs testRegex |> processInput |> ignore
         Assert.That(badRegexResult, Throws.TypeOf<InvalidCharacterSetException>())
 
     [<Test>]
     member _x.``When given a set with one element, returns that element.``() =
         let testRegex = @"hello [w]orld"
         let expected = @"hello world"
-        let actual = processUnRevInput testRegex
+        let actual = processInput <| stringToChrs testRegex
         Assert.AreEqual(expected, actual)
 
     [<Test>]
     member _x.``When given a set with multiple elements, returns one of them.``() =
         let testRegex = @"hello [wWyY]orld"
-        let actual = processUnRevInput testRegex
+        let actual = processInput <| stringToChrs testRegex
         CollectionAssert.Contains(["hello world"; "hello World"; "hello yorld"; "hello Yorld"], actual)
 
     [<Test>]
     member _x.``When given a negated set with one element, returns something that is not that element.``() =
         let testRegex = @"hello [^w]orld"
         let expected = @"hello world"
-        let actual = processUnRevInput testRegex                
+        let actual = stringToChrs testRegex |> processInput |> chrsToString          
         Assert.AreNotEqual(expected.[6], actual.[6])
         Assert.AreEqual(expected.Length, actual.Length)
         Assert.AreEqual(expected.Substring(0,6), actual.Substring(0,6))
@@ -50,7 +52,7 @@ type CharSetTests () =
     member _x.``When given a negated set with multiple elements, returns something not in the set.``() =
         let testRegex = @"hello [^abcdefghijklmnopqrstuvw]orld"
         let expected = @"hello world"
-        let actual = processUnRevInput testRegex
+        let actual = stringToChrs testRegex |> processInput |> chrsToString    
         CollectionAssert.DoesNotContain("abcdefghijklmnopqrstuvw", actual.[6])
         Assert.AreEqual(expected.Length, actual.Length)
         Assert.AreEqual(expected.Substring(0,6), actual.Substring(0,6))

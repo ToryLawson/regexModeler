@@ -68,12 +68,10 @@
             let mutable inputPending = true
             while inputPending do                
                 let inputList = [for c in Console.ReadLine() -> c] 
-                Console.WriteLine(chrsToString <| processInput inputList)
+                Console.WriteLine (chrsToString <| processInput(preProcessInput inputList))
                 inputPending = inputList.IsEmpty |> ignore
             0
         else 
             let inputList = [for c in String.Join(" ", argv) -> c]
-            Console.WriteLine (chrsToString <| processInput inputList)
+            Console.WriteLine (chrsToString <| processInput(preProcessInput inputList))
             0 
-
-    

@@ -26,7 +26,6 @@ type EscapeTests () =
         let input = stringToChrs "\\test"
         let expected = (['\\'], ['t';'e';'s';'t'])
         let actual = escape.processInMode input
-        System.Console.WriteLine actual |> ignore
         Assert.PairsEqual expected actual 
 
     [<Test>]
@@ -40,7 +39,6 @@ type EscapeTests () =
         let input = stringToChrs "\\{2}test"
         let expected = (['\\';'\\'], ['t';'e';'s';'t'])
         let actual = escape.processInMode input
-        System.Console.WriteLine actual |> ignore
         Assert.PairsEqual expected actual
 
     [<Test>]
@@ -65,7 +63,6 @@ type EscapeTests () =
         let input = stringToChrs @"x{46}boo"
         let expected = (['F'], ['b'; 'o'; 'o'])        
         let actual = escape.processInMode input
-        System.Console.WriteLine(actual)
         Assert.PairsEqual expected actual
         
     [<Test>]
@@ -78,7 +75,6 @@ type EscapeTests () =
         let input = stringToChrs @"x{0046}boo"
         let expected = (['F'], ['b'; 'o'; 'o'])        
         let actual = escape.processInMode input
-        System.Console.WriteLine(actual)
         Assert.PairsEqual expected actual
             
     [<Test>]
@@ -91,7 +87,6 @@ type EscapeTests () =
         let input = stringToChrs @"u0046boo"
         let expected = (['F'], ['b'; 'o'; 'o'])        
         let actual = escape.processInMode input
-        System.Console.WriteLine(actual)
         Assert.PairsEqual expected actual
 
     [<Test>]

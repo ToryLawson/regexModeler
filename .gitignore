@@ -41,6 +41,8 @@ _ReSharper*/
 *.resharper.user
 [Nn][Dd]epend[Oo]ut*/
 Ankh.NoLoad
+*.ncrunchproject
+_NCrunch_*
 
 #Other
 .svn

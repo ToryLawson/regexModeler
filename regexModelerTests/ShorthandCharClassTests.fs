@@ -37,7 +37,6 @@ type ShorthandCharClassTests () =
         let modelString = processInput <| stringToChrs testRegex
         let matchString = chrsToString modelString
         let modelMatch = Regex.Match (matchString, testRegex)
-        Console.WriteLine(modelString) |> ignore
         Assert.IsTrue(modelMatch.Success)
     
     [<Test>]
@@ -78,7 +77,7 @@ type ShorthandCharClassTests () =
     [<TestCase @"hello world\b">]
     member _x.``When given a word boundary char class, doesn't insert word boundary char if not needed``(testRegex) =
         let expected = "hello world"
-        let actual = processInput testRegex
+        let actual = processInput <| stringToChrs expected
         Assert.AreEqual(expected, actual)
 
 

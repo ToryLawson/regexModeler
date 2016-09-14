@@ -14,7 +14,6 @@ type QuantifierTests () =
         | 0 -> success
         | x -> 
             let modelString = processInput <| stringToChrs testRegex
-            Console.WriteLine(modelString) |> ignore
             let modelMatch = Regex.Match (chrsToString <| modelString, matchCondition)
             testLoop (testRegex, matchCondition, x - 1, success || modelMatch.Success) 
 
@@ -85,7 +84,6 @@ type QuantifierTests () =
     member _x.``When given a star quantifier, returns between 0 and 10 repeated chars``(testRegex, passRegex) =
         let modelString = processInput <| stringToChrs testRegex
         let modelMatch = Regex.Match(chrsToString modelString, passRegex)
-        Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
     [<TestCase (@"he\d+lo", @"he\d{1,10}lo")>]                // digit char class
@@ -100,7 +98,6 @@ type QuantifierTests () =
     member _x.``When given a plus quantifier, returns between 1 and 10 repeated chars``(testRegex, passRegex) =
         let modelString = processInput <| stringToChrs testRegex
         let modelMatch = Regex.Match(chrsToString modelString, passRegex)
-        Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
     [<TestCase (@"he\d?lo", @"he\d{0,1}lo")>]                // digit char class
@@ -115,7 +112,6 @@ type QuantifierTests () =
     member _x.``When given a question mark quantifier, returns either 0 or 1 char``(testRegex, passRegex) =
         let modelString = processInput <| stringToChrs testRegex
         let modelMatch = Regex.Match(chrsToString modelString, passRegex)
-        Console.WriteLine(modelString.ToString()) |> ignore
         Assert.True(modelMatch.Success)
 
     [<Test>]

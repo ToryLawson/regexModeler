@@ -12,6 +12,7 @@
 
     let escape = new EscapeMode(quantifier, charGenerator, charClass)
     let bracketClass = new BracketClassMode(quantifier, charGenerator, charClass, charSet)
+    let posixClass = new PosixClassMode(quantifier, charGenerator, charSet)
     
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
@@ -51,7 +52,10 @@
             match inputList with
             | '\\'::xs ->
                 let (result, rest) = escape.processInMode xs
-                result @ processInputLoop rest            
+                result @ processInputLoop rest
+            | '['::':'::xs ->
+                let (result, rest) = posixClass.processInMode xs   
+                result @ processInputLoop rest 
             | '['::xs ->
                 let (result, rest) = bracketClass.processInMode xs
                 result @ processInputLoop rest

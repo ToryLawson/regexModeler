@@ -127,3 +127,9 @@ type PosixTests () =
     member _x.``When given a non-matching POSIX class, throws error.``(badRegex) =
         let badProcessCall = fun () -> stringToChrs badRegex |> processInput |> ignore
         Assert.That(badProcessCall, Throws.ArgumentException)
+
+    [<Test>]
+    member _x.``When given a malformed POSIX class, throws error.``() = 
+        let testRegex = "hello [:oops]"
+        let badProcessCall = fun () -> stringToChrs testRegex |> processInput |> ignore
+        Assert.That(badProcessCall, Throws.TypeOf<InvalidCharacterSetException>())

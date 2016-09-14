@@ -59,6 +59,7 @@
     <Compile Include="NumGenerator.fs" />
     <Compile Include="CharGenerator.fs" />
     <Compile Include="BracketClassMode.fs" />
+    <Compile Include="PosixClassMode.fs" />
     <Compile Include="EscapeMode.fs" />
     <Compile Include="Quantifier.fs" />
     <Compile Include="CharClass.fs" />

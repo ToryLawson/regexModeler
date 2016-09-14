@@ -36,6 +36,6 @@ type BracketClassMode (quantifier, charGenerator, charClass, charSet) =
     interface IParseMode with 
 
         member x.processInMode inputList = 
-            let rest, classChars = x.extractClassChars inputList
+            let classChars, rest = x.extractClassChars inputList
             let n, remainder = quantifier.processQuantifier rest
             (charGenerator.GetNListChars n classChars, remainder)

@@ -2,6 +2,13 @@
 *.DS_Store
 [Tt]humbs.db
 
+#Package folder
+/packages/
+
+#NCrunch
+*.ncrunchsolution.user
+*.ncrunchsolution
+
 #Visual Studio Files
 [Oo]bj
 [Bb]in

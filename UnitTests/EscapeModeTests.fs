@@ -7,7 +7,7 @@ open ReverseRegex
 open UnitTests.Stubs
 open TestHelpers
 
-type EscapeTests () =
+type EscapeModeTests () =
 
     member _x.GetEscape(?quantifier, ?charGenerator, ?charClass) =
         let quantifier' = defaultArg quantifier (new QuantifierStub() :> IQuantifier)

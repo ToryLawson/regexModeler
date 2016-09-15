@@ -21,10 +21,6 @@ let rec repeatChunk inputList n =
     | 0 -> []
     | _ -> inputList @ repeatChunk inputList (n-1)
 
-let IsHexDigit chr =
-    let hexList = ['0'..'9'] @ ['a'..'f'] @ ['A'..'F']
-    List.exists <| (fun c -> c = chr) <|  hexList
-
 let getUnicodeChar chrs =
     match chrs with
     | [hex1] ->

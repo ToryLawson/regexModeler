@@ -3,7 +3,7 @@
 open ListHelpers
 open NUnit.Framework
 
-type TestHelpersTests() =
+type ListHelpersTests() =
     
     [<Test>]
     member _x.``chrsToString correctly joins a list of chars into a string.``() =
@@ -58,3 +58,22 @@ type TestHelpersTests() =
         let actual = repeatChunk ['1';'2';'3';'4'] 3
         Assert.AreEqual(expected, actual)
         
+    [<TestCase("a", '\u000a')>]
+    [<TestCase("aa", '\u00aa')>]
+    [<TestCase("aaa", '\u0aaa')>]
+    [<TestCase("aaaa", '\uaaaa')>]
+    member _x.``getUnicodeChar, when given a unicode string, returns corresponding unicode char``(inputString, expected) =
+        let actual = inputString |> stringToChrs |> getUnicodeChar
+        Assert.AreEqual(expected, actual)
+    
+    [<TestCase("")>]
+    [<TestCase("aaaaa")>]
+    member _x.``getUnicodeChar, when given a malformed string, raises an exception``(inputString) =
+        let badFunctionCall = fun () -> inputString |> stringToChrs |> getUnicodeChar |> ignore
+        Assert.That(badFunctionCall, Throws.TypeOf<System.ArgumentException>())
+       
+    [<Test>]
+    member _x.``getUnicodeChar, when given an impossible unicode string, raises an exception``() =
+        let badFunctionCall = fun () -> "jkjk" |> stringToChrs |> getUnicodeChar |> ignore
+        Assert.That(badFunctionCall, Throws.TypeOf<System.FormatException>())
+     

@@ -9,19 +9,23 @@ type PosixClassMode (quantifier, charGenerator, charSet) =
     let charGenerator = charGenerator :> ICharGenerator
     let charSet = charSet :> ICharSet
 
-    let rec extractPosixClass acc rest = 
-        match rest with
-        | ':'::']'::xs  -> (acc, xs)
-        | x::xs         -> extractPosixClass (x::acc) xs
-        | _otherwise    -> raise <| InvalidCharacterSetException "Malformed POSIX identifier"        
+    member x.extractPosixClass input = 
+        let rec extractReversePosixClass acc rest = 
+            match rest with
+            | ':'::']'::cs  -> (acc, cs)
+            | c::cs         -> extractReversePosixClass (c::acc) cs
+            | _otherwise    -> raise <| InvalidCharacterSetException "Malformed POSIX identifier"        
+        
+        let (posixClass, rest) = extractReversePosixClass [] input
+        (posixClass |> List.rev |> chrsToString, rest)
+
 
     member x.processInMode = (x :> IParseMode).processInMode
 
     interface IParseMode with 
 
-        member _x.processInMode inputList = 
-            let classList, rest = extractPosixClass [] inputList
-            let posixClass = chrsToString <| List.rev(classList)
+        member x.processInMode inputList = 
+            let (posixClass, rest) = x.extractPosixClass inputList
             let classChars = charSet.GetPosixCharSet posixClass
             let n, remainder = quantifier.processQuantifier rest
             (charGenerator.GetNListChars n classChars, remainder)

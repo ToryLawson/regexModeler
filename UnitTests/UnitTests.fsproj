@@ -58,6 +58,7 @@
     <Compile Include="NumGeneratorStub.fs" />
     <Compile Include="QuantifierStub.fs" />
     <Compile Include="BracketClassModeTests.fs" />
+    <Compile Include="PosixClassModeTests.fs" />
     <Compile Include="EscapeTests.fs" />
     <Compile Include="QuantifierTests.fs" />
     <Compile Include="TestHelpersTests.fs" />

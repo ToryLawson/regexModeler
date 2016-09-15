@@ -3,7 +3,7 @@
 [Tt]humbs.db
 
 #Package folder
-/packages/
+packages/
 
 #NCrunch
 *.ncrunchsolution.user

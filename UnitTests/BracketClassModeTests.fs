@@ -82,3 +82,19 @@ type BracketClassModeTests () =
         Assert.True(stringToChrs classChars |> List.exists ((=) result.[0]))
         Assert.That(result.Length = 1)
         Assert.AreEqual (expectedRemainder, actualRemainder)
+
+    [<Test>]
+    member x.``processInMode, when given char range and no quantifier, returns item from range and remainder``() =
+        let inputChars = stringToChrs "j-l]rest"
+        let expectedResult = ['j']
+        let expectedRemainder = (stringToChrs "rest")
+        let quantifierMock = 
+            new QuantifierStub(processQuantifierFn = (fun _c -> (1, ['r'; 'e'; 's'; 't'])))
+        let charGeneratorMock = 
+            new CharGeneratorStub(GetNListChars = (fun _n _l -> ['j']))
+        let bracketClassMode = x.GetBracketClassMode(quantifier = quantifierMock, 
+                                                     charGenerator = charGeneratorMock)            
+        let actualResult, actualRemainder = bracketClassMode.processInMode inputChars
+        Assert.AreEqual(expectedResult, actualResult)
+        Assert.AreEqual(expectedRemainder, actualRemainder)
+

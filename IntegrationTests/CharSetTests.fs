@@ -57,3 +57,9 @@ type CharSetTests () =
         Assert.AreEqual(expected.Length, actual.Length)
         Assert.AreEqual(expected.Substring(0,6), actual.Substring(0,6))
         Assert.AreEqual(expected.Substring(7,4), actual.Substring(7,4))
+
+    [<Test>]
+    member _x.``When given a range, returns an element in that range.``() =
+        let testRegex = @"12[a-d]34"
+        let actual = stringToChrs testRegex |> processInput |> chrsToString
+        CollectionAssert.Contains(["12a34"; "12b34"; "12c34"; "12d34"], actual)

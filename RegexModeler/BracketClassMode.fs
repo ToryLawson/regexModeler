@@ -20,6 +20,8 @@ type BracketClassMode (quantifier, charGenerator, charClass, charSet) =
             | '\\'::cs          -> let c = fst <| charClass.getCharFromClass cs
                                    extractClassCharsLoop (cs, c::acc)
             | '-'::']'::cs      -> (List.rev <| '-'::acc, cs)
+            | c::'-'::c'::cs    -> let chr = charGenerator.GetNListChars 1 [c..c']
+                                   extractClassCharsLoop(cs, (chr.[0])::acc)
             | ']'::cs           -> (List.rev acc, cs)
             | c::cs             -> extractClassCharsLoop (cs, c::acc)
             | []                -> failwith "Unclosed bracketed character class"

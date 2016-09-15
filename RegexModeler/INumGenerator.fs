@@ -1,4 +1,4 @@
-﻿namespace ReverseRegex.Interfaces
+﻿namespace RegexModeler.Interfaces
 
     type INumGenerator =
         abstract member GetNumber:        int -> int

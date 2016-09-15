@@ -1,6 +1,6 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 
 type BracketClassMode (quantifier, charGenerator, charClass, charSet) =
     
@@ -12,7 +12,7 @@ type BracketClassMode (quantifier, charGenerator, charClass, charSet) =
     member x.processInMode = (x :> IParseMode).processInMode
 
     member _x.extractClassChars inputList =                     // TODO: add remaining escaped chars
-        let rec extractClassCharsLoop (chrs, acc) =             // TODO: handle "not" condition
+        let rec extractClassCharsLoop (chrs, acc) =             // TODO: add range handling
             match chrs with                                     // TODO: handle nested char classes (\d)
             | '\\'::']'::cs     -> extractClassCharsLoop (cs, ']'::acc)   
             | '\\'::'\\'::cs    -> extractClassCharsLoop (cs, '\\'::acc)

@@ -1,11 +1,11 @@
-﻿namespace ReverseRegexTests
+﻿namespace RegexModelerTests
 
 open ListHelpers
 open NUnit.Framework
 open System
 open System.Text.RegularExpressions
-open ReverseRegex
-open ReverseRegex.Main
+open RegexModeler
+open RegexModeler.Main
 
 type QuantifierTests () = 
 

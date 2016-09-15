@@ -1,4 +1,4 @@
-﻿ module ReverseRegex.Main
+﻿ module RegexModeler.Main
 
     open System
     open Microsoft.FSharp.Collections

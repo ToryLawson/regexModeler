@@ -1,7 +1,5 @@
 ﻿module UnitTests.TestHelpers
 
-open NUnit.Framework
-
 type NUnit.Framework.Assert with
 
     static member PairsEqual (a: 'a, b: 'b) (c: 'a, d: 'b)=
@@ -11,4 +9,4 @@ type NUnit.Framework.Assert with
 let CreateStub fn msg =
         match fn with 
         | Some fn   -> fn
-         | None      -> raise <| ReverseRegex.UnimplementedMemberException msg
+        | None      -> raise <| RegexModeler.UnimplementedMemberException msg

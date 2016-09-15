@@ -1,4 +1,4 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
     /// Quantifiers can only be applied to things which are repeatable.
     exception InvalidQuantifierTargetException of string

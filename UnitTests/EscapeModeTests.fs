@@ -2,8 +2,8 @@
 
 open ListHelpers
 open NUnit.Framework
-open ReverseRegex.Interfaces
-open ReverseRegex
+open RegexModeler.Interfaces
+open RegexModeler
 open UnitTests.Stubs
 open TestHelpers
 

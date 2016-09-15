@@ -36,7 +36,6 @@ type ListHelpersTests() =
         let expected = ['1';'4']
         let actual = subtractList list1 list2
         Assert.AreEqual(expected, actual)
-
     
     [<Test>]
     member _x.``subtractList correctly subtracts two lists, ignoring duplicates.``() =

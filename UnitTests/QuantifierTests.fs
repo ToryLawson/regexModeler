@@ -3,7 +3,7 @@
 open TestHelpers
 open ListHelpers
 open NUnit.Framework
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 
 type QuantifierTests () =
 
@@ -20,7 +20,7 @@ type QuantifierTests () =
                                                     0
             }
 
-    let q = new ReverseRegex.Quantifier(numGeneratorMock) :> IQuantifier
+    let q = new RegexModeler.Quantifier(numGeneratorMock) :> IQuantifier
 
     [<Test>]
     member _x.``processQuantifier, when only given single quantifier, returns that number plus an empty list.``() =

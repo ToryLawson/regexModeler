@@ -1,6 +1,6 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 open ListHelpers
 
 type PosixClassMode (quantifier, charGenerator, charSet) =

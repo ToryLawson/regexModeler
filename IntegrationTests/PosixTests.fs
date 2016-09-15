@@ -1,9 +1,9 @@
-﻿namespace ReverseRegexTests
+﻿namespace RegexModelerTests
 
 open ListHelpers
 open NUnit.Framework
-open ReverseRegex
-open ReverseRegex.Main
+open RegexModeler
+open RegexModeler.Main
 
 type PosixTests () =
 

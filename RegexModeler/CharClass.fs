@@ -1,7 +1,7 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
 open ListHelpers
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 
 type CharClass(charGenerator, numGenerator) =
     
@@ -42,4 +42,3 @@ type CharClass(charGenerator, numGenerator) =
                   -> charGenerator.GetNNonSpaceChars n
             |  _  -> 
                 raise <| InvalidShorthandClassException "Unsupported shorthand character class"
-

@@ -1,7 +1,7 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
 open ListHelpers
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 open System
 
 type Quantifier(generator) =
@@ -36,4 +36,3 @@ type Quantifier(generator) =
                 (x.generator.GetNumberInRange (Some(0)) (Some(1)), xs)
             | xs -> 
                 (1, xs)
-

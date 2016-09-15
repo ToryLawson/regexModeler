@@ -1,7 +1,7 @@
-﻿namespace ReverseRegex
+﻿namespace RegexModeler
 
 open ListHelpers
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 
     type CharGenerator() =
         

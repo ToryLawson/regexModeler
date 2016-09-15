@@ -1,6 +1,6 @@
 ﻿namespace UnitTests.Stubs
 
-open ReverseRegex.Interfaces
+open RegexModeler.Interfaces
 open UnitTests.TestHelpers
 
 type QuantifierStub(?processQuantifierFn) =

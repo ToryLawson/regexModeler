@@ -42,7 +42,7 @@
         match n with
         | 0 -> []
         | _ -> inputList @ repeatChunk inputList (n-1)
-                  
+
     let preProcessInput (inputList) = 
         validateRegex inputList
         processWordBoundaries inputList
@@ -59,8 +59,10 @@
             | '['::xs ->
                 let (result, rest) = bracketClass.processInMode xs
                 result @ processInputLoop rest
-            | x::xs ->                                                                                                      
-                x::processInputLoop xs      
+            | x::xs ->   
+                let n, rest = quantifier.processQuantifier xs
+                let result = charGenerator.GetNLiterals n x                                                                                          
+                result @ processInputLoop rest      
             | x -> x
         
         let preProcessedInput = preProcessInput inputList 

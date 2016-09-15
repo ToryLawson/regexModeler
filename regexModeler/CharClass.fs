@@ -42,3 +42,4 @@ type CharClass(charGenerator, numGenerator) =
                   -> charGenerator.GetNNonSpaceChars n
             |  _  -> 
                 raise <| InvalidShorthandClassException "Unsupported shorthand character class"
+

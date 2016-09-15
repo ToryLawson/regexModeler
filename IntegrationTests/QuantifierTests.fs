@@ -29,6 +29,7 @@ type QuantifierTests () =
     member _x.``When given a single quantifier and a value, repeats value``(testRegex, passRegex) =
         let modelString = processInput <| stringToChrs testRegex
         let modelMatch = Regex.Match(chrsToString modelString, passRegex)
+        System.Console.WriteLine(chrsToString modelString)
         Assert.True(modelMatch.Success)
 
     [<TestCase (@"he\d{3,6}lo", @"he\d{3,6}lo")>]                // digit char class

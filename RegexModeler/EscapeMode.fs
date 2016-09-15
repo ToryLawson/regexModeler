@@ -40,12 +40,15 @@ type EscapeMode (quantifier, charGenerator, charClass) =
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2; hex3]]
                 (iterResult, rest)                
             | 'x'::'{'::hex1::hex2::hex3::hex4::'}'::xs  
-            | 'x'::hex1::hex2::hex3::hex4::xs  
             | 'u'::'{'::hex1::hex2::hex3::hex4::'}'::xs  
             | 'u'::hex1::hex2::hex3::hex4::xs  ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2; hex3; hex4]]
-                (iterResult, xs)
+                (iterResult, rest)            
+            | 'x'::hex1::hex2::xs  ->                
+                let n, rest = quantifier.processQuantifier xs
+                let iterResult = charGenerator.GetNStringsAsList n <| chrsToString [getUnicodeChar [hex1; hex2]]
+                (iterResult, rest)
             | x::xs ->
                 let n, rest = quantifier.processQuantifier xs
                 let iterResult = charClass.getNCharsFromClass n x

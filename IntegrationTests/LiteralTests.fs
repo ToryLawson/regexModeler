@@ -61,13 +61,7 @@ type LiteralTests () =
         let expected = "hel\u20AClo"
         let actual = processInput <| stringToChrs @"hel\x{20AC}lo"
         Assert.That(actual, Is.EqualTo expected)
-
-    [<Test>]
-    member _x.``When given four-digit hex without braces, returns Unicode char`` () =
-        let expected = "hel\u20AClo"
-        let actual = processInput <| stringToChrs @"hel\x20AClo"
-        Assert.That(actual, Is.EqualTo expected)
-
+        
     [<Test>]
     member _x.``When give one-digit unicode hex, returns Unicode char`` () =
         let expected = "hel\u000Flo"

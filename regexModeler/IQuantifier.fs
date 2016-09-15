@@ -1,5 +1,5 @@
-﻿namespace ReverseRegex
+﻿namespace ReverseRegex.Interfaces
 
 type IQuantifier =
 
-    abstract member getNFromQuantifier: char list -> int * char list
+    abstract member processQuantifier: char list -> int * char list

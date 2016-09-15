@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>236b2bea-73db-41e3-b2ba-8f1392e2c6c4</ProjectGuid>
+    <ProjectGuid>{0d2c636e-f16a-4754-8376-1531cac32991}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>regexModeler</RootNamespace>
-    <AssemblyName>ReverseRegex</AssemblyName>
+    <AssemblyName>RegexModeler</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>ReverseRegex</Name>
+    <Name>RegexModeler</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,18 +50,22 @@
     <Compile Include="ICharSet.fs" />
     <Compile Include="ICharClass.fs" />
     <Compile Include="ICharGenerator.fs" />
+    <Compile Include="IParseMode.fs" />
     <Compile Include="INumGenerator.fs" />
     <Compile Include="IQuantifier.fs" />
     <Compile Include="Exceptions.fs" />
     <Compile Include="ListHelpers.fs" />
     <Compile Include="FullCharSet.fs" />
-    <Compile Include="RandomNumGenerator.fs" />
-    <Compile Include="RandomCharGenerator.fs" />
-    <Compile Include="RandomQuantifier.fs" />
-    <Compile Include="RandomCharClass.fs" />
+    <Compile Include="NumGenerator.fs" />
+    <Compile Include="CharGenerator.fs" />
+    <Compile Include="BracketClassMode.fs" />
+    <Compile Include="PosixClassMode.fs" />
+    <Compile Include="EscapeMode.fs" />
+    <Compile Include="Quantifier.fs" />
+    <Compile Include="CharClass.fs" />
     <Compile Include="Factory.fs" />
-    <None Include="App.config" />
     <Compile Include="RegexModeler.fs" />
+    <None Include="App.config" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

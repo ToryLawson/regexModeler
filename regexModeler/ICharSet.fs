@@ -1,4 +1,4 @@
-﻿namespace ReverseRegex
+﻿namespace ReverseRegex.Interfaces
 
 type ICharSet =
 
@@ -7,7 +7,7 @@ type ICharSet =
     abstract member digitChars:           char list
     abstract member spaceChars:           char list
 
-    abstract member Contains:             seq<'a> -> 'a -> bool when 'a : equality
+    abstract member Contains:             char list -> char -> bool
     abstract member IsWord:               char -> bool
     abstract member IsNonWord:            char -> bool
     abstract member GetUnicodeChar:       int -> char

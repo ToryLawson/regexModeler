@@ -1,5 +1,7 @@
 ﻿module ListHelpers
 
+open System
+
 let chrsToString chrs = new System.String(chrs |> Array.ofList)
     
 let stringToChrs str = [for c in str -> c]
@@ -18,3 +20,21 @@ let rec repeatChunk inputList n =
     match n with
     | 0 -> []
     | _ -> inputList @ repeatChunk inputList (n-1)
+
+let IsHexDigit chr =
+    let hexList = ['0'..'9'] @ ['a'..'f'] @ ['A'..'F']
+    List.exists <| (fun c -> c = chr) <|  hexList
+
+let getUnicodeChar chrs =
+    match chrs with
+    | [hex1] ->
+        char <| Int32.Parse (chrsToString ['0';'0';'0';hex1], Globalization.NumberStyles.HexNumber)
+    | [hex1; hex2] -> 
+        char <| Int32.Parse (chrsToString ['0';'0';hex1; hex2], Globalization.NumberStyles.HexNumber)
+    | [hex1; hex2; hex3] ->        
+        char <| Int32.Parse (chrsToString ['0';hex1; hex2; hex3], Globalization.NumberStyles.HexNumber)
+    | [hex1; hex2; hex3; hex4] -> 
+        char <| Int32.Parse (chrsToString [hex1; hex2; hex3; hex4], Globalization.NumberStyles.HexNumber)
+    | invalidInput -> 
+        let errString = sprintf "Expected two or four hex characters but got %s" (invalidInput.ToString())
+        invalidArg errString ""

@@ -1,5 +1,7 @@
 ﻿namespace ReverseRegex
 
+open ReverseRegex.Interfaces
+
     type FullCharSet() =
 
         interface ICharSet with

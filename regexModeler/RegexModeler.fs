@@ -8,7 +8,11 @@
     let charGenerator = Factory.GetICharGenerator()
     let charSet = Factory.GetICharset()
     let quantifier = Factory.GetIQuantifier(numGenerator)
-    let charClass = Factory.GetICharClass(charGenerator)
+    let charClass = Factory.GetICharClass(charGenerator, numGenerator)
+
+    let escape = new EscapeMode(quantifier, charGenerator, charClass)
+    let bracketClass = new BracketClassMode(quantifier, charGenerator, charClass, charSet)
+    let posixClass = new PosixClassMode(quantifier, charGenerator, charSet)
     
     let rec validateRegex = function
         | '\\'::'b'::'{'::_ | _::'\\'::'b'::'{'::_ ->
@@ -17,6 +21,8 @@
             raise <| InvalidCharacterSetException "Empty bracketed character sets are invalid."
         | '{'::','::_ ->
             raise <| InvalidQuantityException "Ranged quantifiers must have a minimum value."
+        | ['\\'] ->            
+            raise <| MalformedRegexException "A valid regular expression cannot contain a trailing backslash."
         | _::xs -> 
             validateRegex xs
         | [] -> ()      
@@ -41,39 +47,24 @@
         validateRegex inputList
         processWordBoundaries inputList
 
-    let rec processInput (inputList, n) =
-        let nextN = if n = 0 then 1 else n - 1
-
-        match inputList with
-        | ']'::x::'['::xs ->
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then [x] else [])
-        | ']'::_ ->
-            let (chr, rest) = charClass.getCharFromClass inputList in
-            processInput((if n = 0 then rest else inputList), nextN) @ (if n > 0 then [chr] else [])
-        | '\\'::'\\'::xs ->                                                                                             // Literal slash, at end  
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then ['\\'] else [])
-        | y::'c'::'\\'::xs ->                                                                                           // Control characters
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then ['^'; Char.ToUpper(y)] else [])
-        | c2::c1::'x'::'\\'::xs ->  
-            let unicodeChar = char <| Int32.Parse (chrsToString ['0';'0';c1;c2], Globalization.NumberStyles.HexNumber)  // 2-digit hex
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then [unicodeChar] else [])
-        | '}'::c4::c3::c2::c1::'{'::_::'\\'::xs | c4::c3::c2::c1::'u'::'\\'::xs 
-            when not ([c1;c2;c3;c4] |> Seq.exists(fun (x) -> x = ',')) ->           
-            let unicodeChar = char <| Int32.Parse (chrsToString [c1; c2; c3; c4], Globalization.NumberStyles.HexNumber) // 4-digit hex to Unicode
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then [unicodeChar] else []) 
-        | '}'::_ | '*'::_ | '+'::_ | '?'::_ ->                                                                          // Quantifier range
-            let (n, rest) = quantifier.getNFromQuantifier inputList in processInput(rest, n)
-        | x::'\\'::'\\'::xs ->                                                                                          // Literal slash, not at end  
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then ['\\'; x] else [])
-        | x::'\\'::xs ->                                                                                                // Shorthand char class
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then [charClass.processCharClass x] else [])
-        | x::xs ->                                                                                                      // Non-escaped literal  
-            processInput((if n = 0 then xs else inputList), nextN) @ (if n > 0 then [x] else [])      
-        | x -> x
-                
-    let processUnRevInput (inputStr) =
-        let inputList = [for c in inputStr -> c]
-        chrsToString <| processInput(List.rev(preProcessInput inputList), 1)
+    let processInput (inputList) =
+        let rec processInputLoop (inputList) =  
+            match inputList with
+            | '\\'::xs ->
+                let (result, rest) = escape.processInMode xs
+                result @ processInputLoop rest
+            | '['::':'::xs ->
+                let (result, rest) = posixClass.processInMode xs   
+                result @ processInputLoop rest 
+            | '['::xs ->
+                let (result, rest) = bracketClass.processInMode xs
+                result @ processInputLoop rest
+            | x::xs ->                                                                                                      
+                x::processInputLoop xs      
+            | x -> x
+        
+        let preProcessedInput = preProcessInput inputList 
+        processInputLoop preProcessedInput
 
     [<EntryPoint>]
     let main argv = 
@@ -81,12 +72,10 @@
             let mutable inputPending = true
             while inputPending do                
                 let inputList = [for c in Console.ReadLine() -> c] 
-                Console.WriteLine (chrsToString <| processInput(List.rev(preProcessInput inputList), 1))
+                Console.WriteLine (chrsToString <| processInput(preProcessInput inputList))
                 inputPending = inputList.IsEmpty |> ignore
             0
         else 
             let inputList = [for c in String.Join(" ", argv) -> c]
-            Console.WriteLine (chrsToString <| processInput(List.rev(preProcessInput inputList), 1))
+            Console.WriteLine (chrsToString <| processInput(preProcessInput inputList))
             0 
-
-    

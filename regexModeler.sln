@@ -3,18 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ReverseRegex", "ReverseRegex.fsproj", "{236B2BEA-73DB-41E3-B2BA-8F1392E2C6C4}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntegrationTests", "..\regexModelerTests\IntegrationTests.fsproj", "{D4762F36-0B78-46D4-AA94-E6C69F4E8AE5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2CE5A483-4392-4744-A0DE-926F4549455C}"
 	ProjectSection(SolutionItems) = preProject
-		Feature List.txt = Feature List.txt
+		regexModeler\Feature List.txt = regexModeler\Feature List.txt
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitTests", "..\UnitTests\UnitTests.fsproj", "{24B0F1F1-CD4B-49F0-8EA5-4783A125CF42}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RegexModeler", "RegexModeler\RegexModeler.fsproj", "{0D2C636E-F16A-4754-8376-1531CAC32991}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ReverseRegex2", "..\reverseRegex2\ReverseRegex2.fsproj", "{0D2C636E-F16A-4754-8376-1531CAC32991}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "IntegrationTests", "IntegrationTests\IntegrationTests.fsproj", "{D4762F36-0B78-46D4-AA94-E6C69F4E8AE5}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnitTests", "UnitTests\UnitTests.fsproj", "{24B0F1F1-CD4B-49F0-8EA5-4783A125CF42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +20,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{236B2BEA-73DB-41E3-B2BA-8F1392E2C6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{236B2BEA-73DB-41E3-B2BA-8F1392E2C6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{236B2BEA-73DB-41E3-B2BA-8F1392E2C6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{236B2BEA-73DB-41E3-B2BA-8F1392E2C6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D2C636E-F16A-4754-8376-1531CAC32991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2C636E-F16A-4754-8376-1531CAC32991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2C636E-F16A-4754-8376-1531CAC32991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2C636E-F16A-4754-8376-1531CAC32991}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4762F36-0B78-46D4-AA94-E6C69F4E8AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4762F36-0B78-46D4-AA94-E6C69F4E8AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4762F36-0B78-46D4-AA94-E6C69F4E8AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,10 +32,6 @@ Global
 		{24B0F1F1-CD4B-49F0-8EA5-4783A125CF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24B0F1F1-CD4B-49F0-8EA5-4783A125CF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24B0F1F1-CD4B-49F0-8EA5-4783A125CF42}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D2C636E-F16A-4754-8376-1531CAC32991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D2C636E-F16A-4754-8376-1531CAC32991}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D2C636E-F16A-4754-8376-1531CAC32991}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D2C636E-F16A-4754-8376-1531CAC32991}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

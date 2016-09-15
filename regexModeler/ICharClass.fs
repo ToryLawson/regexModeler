@@ -1,6 +1,6 @@
-﻿namespace ReverseRegex
+﻿namespace ReverseRegex.Interfaces
 
 type ICharClass =
     
     abstract member getCharFromClass: char list -> char * char list
-    abstract member processCharClass: (char -> char)
+    abstract member getNCharsFromClass: int -> char -> char list

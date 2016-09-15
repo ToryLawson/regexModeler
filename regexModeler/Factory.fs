@@ -1,18 +1,21 @@
 ﻿namespace ReverseRegex
 
+open ReverseRegex.Interfaces
+
 type Factory() =
 
     static member GetICharset(): ICharSet =
         new FullCharSet() :> ICharSet
 
     static member GetINumGenerator(): INumGenerator = 
-        new RandomNumGenerator() :> INumGenerator
+        new NumGenerator() :> INumGenerator
 
     static member GetICharGenerator(): ICharGenerator = 
-        new RandomCharGenerator() :> ICharGenerator
+        new CharGenerator() :> ICharGenerator
   
     static member GetIQuantifier (numGenerator): IQuantifier = 
-        new RandomQuantifier(numGenerator) :> IQuantifier
+        new Quantifier(numGenerator) :> IQuantifier
 
     static member GetICharClass (charGenerator) : ICharClass = 
-        new RandomCharClass(charGenerator) :> ICharClass
+        new CharClass(charGenerator) :> ICharClass
+
